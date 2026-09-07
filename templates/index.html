@@ -3,189 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>HaloPesa</title>
-
     <style>
         :root {
             --hp-orange: #FF5A1F;
             --white: #fff;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
-                         Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--hp-orange);
             min-height: 100vh;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             padding: 20px;
         }
-
         .container {
             max-width: 420px;
             width: 100%;
-
             background: #fff;
-
             border-radius: 24px;
-
             padding: 35px 20px 28px;
-
             text-align: center;
-
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        /* HaloPesa Logo */
         .logo {
             width: 85px;
             height: 85px;
-
             margin: 0 auto 22px;
         }
-
         .logo svg {
             width: 100%;
             height: 100%;
             display: block;
         }
-
-        /* Message */
         .message {
             font-size: 1.05rem;
             font-weight: 600;
-
             color: var(--hp-orange);
-
             line-height: 1.7;
-
             margin-bottom: 26px;
         }
-
-        /* Button */
         .btn-naelewa {
             display: inline-block;
-
             background: var(--hp-orange);
             color: #fff;
-
             font-weight: 700;
             font-size: 1rem;
-
             padding: 13px 38px;
-
             border-radius: 50px;
-
             text-decoration: none;
-
             transition: 0.2s ease;
         }
-
         .btn-naelewa:hover {
             background: #d94d18;
             transform: translateY(-1px);
         }
-
-        .btn-naelewa:active {
-            transform: translateY(0);
-        }
-
-        /* Mobile */
         @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-
-            .container {
-                padding: 30px 18px 25px;
-                border-radius: 22px;
-            }
-
-            .logo {
-                width: 82px;
-                height: 82px;
-            }
-
-            .message {
-                font-size: 1rem;
-                line-height: 1.6;
-            }
-
-            .btn-naelewa {
-                padding: 12px 35px;
-            }
+            .container { padding: 30px 18px 25px; }
+            .logo { width: 82px; height: 82px; }
+            .message { font-size: 1rem; }
+            .btn-naelewa { padding: 12px 35px; }
         }
     </style>
 </head>
-
 <body>
-
     <div class="container">
-
-        <!-- HaloPesa Logo -->
         <div class="logo">
-            <svg
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-
-                <!-- Orange rounded-square background -->
-                <rect
-                    width="100"
-                    height="100"
-                    rx="22"
-                    fill="#FF5A1F"
-                />
-
-                <!-- White circle -->
-                <circle
-                    cx="34"
-                    cy="52"
-                    r="16"
-                    fill="white"
-                />
-
-                <!-- White curved HaloPesa mark -->
-                <path
-                    d="
-                        M53 77
-                        C67 74 76 65 79 51
-                        C81 42 79 31 74 27
-                        C69 23 62 25 59 30
-                        C56 35 58 42 61 48
-                        C64 55 63 62 58 67
-                        C54 72 48 76 41 78
-                        C46 80 50 79 53 77
-                        Z
-                    "
-                    fill="white"
-                />
-
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="22" fill="#FF5A1F"/>
+                <circle cx="34" cy="52" r="16" fill="white"/>
+                <path d="M53 77 C67 74 76 65 79 51 C81 42 79 31 74 27 C69 23 62 25 59 30 C56 35 58 42 61 48 C64 55 63 62 58 67 C54 72 48 76 41 78 C46 80 50 79 53 77 Z" fill="white"/>
             </svg>
         </div>
-
-        <!-- Message -->
         <p class="message">
             Tafadhali hakikisha unatumia nambari ya simu ya Halotel
             iliyo halali na iliyosajiliwa ili uweze kufuzu.
         </p>
-
-        <!-- Continue Button -->
-        <a href="/apply" class="btn-naelewa">
-            NAELEWA
-        </a>
-
+        <a href="/apply" class="btn-naelewa">NAELEWA</a>
     </div>
-
 </body>
 </html>
