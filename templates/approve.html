@@ -14,7 +14,9 @@
             --dark: #1a1a1a;
             --border: #e5e7eb;
         }
+
         * { margin:0; padding:0; box-sizing:border-box; }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--hp-orange);
@@ -24,35 +26,129 @@
             justify-content: center;
             padding: 20px;
         }
-        .container { max-width:420px; width:100%; padding:10px 0; }
-        .logo { width:80px; height:80px; margin:0 auto 10px; }
-        .logo svg { width:100%; height:100%; display:block; }
-        .brand-name { font-size:1.8rem; font-weight:900; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.1); text-align:center; }
-        .header-sub { font-size:1rem; color:#fff; opacity:0.95; text-align:center; margin-bottom:18px; }
-        .card { background:var(--white); border-radius:20px; padding:20px 16px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
-        .card-title { font-size:1.1rem; font-weight:800; color:var(--dark); margin-bottom:12px; text-align:center; }
-        .loan-summary { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:8px 0; }
-        .summary-item { background:var(--light-gray); border-radius:10px; padding:10px 12px; text-align:center; }
-        .summary-item .label { font-size:0.7rem; color:var(--gray); font-weight:600; text-transform:uppercase; }
-        .summary-item .value { font-size:1.1rem; font-weight:800; color:var(--dark); margin-top:2px; }
-        .summary-item .value.orange { color:var(--hp-orange); }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+        }
+        .logo svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .header-sub {
+            font-size: 1rem;
+            color: #fff;
+            opacity: 0.95;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 20px 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .loan-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .summary-item {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        .summary-item .label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .summary-item .value {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-top: 2px;
+        }
+
+        .summary-item .value.orange {
+            color: var(--hp-orange);
+        }
 
         .status-message {
-            text-align:center;
-            padding:12px;
-            border-radius:10px;
-            margin:10px 0;
-            font-weight:500;
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: 500;
         }
-        .status-message.waiting { background:#dbeafe; color:#1e40af; }
-        .status-message.success { background:#dcfce7; color:#166534; }
-        .status-message.error { background:#fee2e2; color:#991b1b; }
-        .status-message.info { background:#fef3c7; color:#92400e; }
 
-        .hidden { display:none !important; }
+        .status-message.waiting {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .status-message.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .status-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .status-message.info {
+            background: #fef3c7;
+            color: #92400e;
+        }
 
-        .code-section { margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
-        .code-section p { font-size:0.85rem; color:var(--gray); text-align:center; margin-bottom:8px; }
+        .hidden {
+            display: none !important;
+        }
+
+        .code-section {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        .code-section p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 8px;
+        }
 
         /* Code boxes (like PIN) */
         .code-boxes {
@@ -61,6 +157,7 @@
             gap: 12px;
             margin: 12px 0 16px;
         }
+
         .code-box {
             width: 50px;
             height: 56px;
@@ -74,12 +171,35 @@
             transition: border-color 0.2s, box-shadow 0.2s;
             background: var(--white);
         }
+
         .code-box:focus {
             border-color: var(--hp-orange);
             box-shadow: 0 0 0 3px rgba(255, 90, 31, 0.2);
         }
+
         .code-box.filled {
             border-color: var(--hp-orange);
+        }
+
+        /* Timer */
+        .timer-box {
+            background: #fef2f2;
+            border-radius: 10px;
+            padding: 8px 12px;
+            text-align: center;
+            margin: 12px 0 8px;
+            border: 2px solid #fca5a5;
+        }
+
+        .timer-box .time {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #dc2626;
+        }
+
+        .timer-box .label {
+            font-size: 0.7rem;
+            color: var(--gray);
         }
 
         .btn-submit {
@@ -95,11 +215,18 @@
             transition: 0.2s;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             text-align: center;
-            white-space: nowrap;
             width: 100%;
         }
-        .btn-submit:hover { background:var(--hp-dark); transform:translateY(-1px); }
-        .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+
+        .btn-submit:hover {
+            background: var(--hp-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
         .loader {
             border: 4px solid #f3f3f3;
@@ -110,7 +237,11 @@
             animation: spin 1s linear infinite;
             margin: 0 auto;
         }
-        @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
         .footer-features {
             display: flex;
@@ -121,16 +252,20 @@
             opacity: 0.9;
             padding: 10px 0;
         }
-        .footer-features span { display:flex; align-items:center; gap:4px; }
 
-        /* Responsive */
-        @media (max-width:480px) {
-            .container { padding:5px 0; }
-            .card { padding:16px 12px; }
-            .loan-summary { gap:6px; }
-            .summary-item { padding:8px 6px; }
-            .summary-item .value { font-size:1rem; }
-            .code-box { width:44px; height:50px; font-size:1.4rem; }
+        .footer-features span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 5px 0; }
+            .card { padding: 16px 12px; }
+            .loan-summary { gap: 6px; }
+            .summary-item { padding: 8px 6px; }
+            .summary-item .value { font-size: 1rem; }
+            .code-box { width: 44px; height: 50px; font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -151,17 +286,37 @@
         <div class="card">
             <div class="card-title">📊 Muhtasari wa Mkopo</div>
             <div class="loan-summary">
-                <div class="summary-item"><div class="label">Kiasi</div><div class="value orange" id="summaryAmount">---</div></div>
-                <div class="summary-item"><div class="label">Muhula</div><div class="value" id="summaryTerm">---</div></div>
-                <div class="summary-item"><div class="label">Simu</div><div class="value" id="summaryPhone">---</div></div>
-                <div class="summary-item"><div class="label">App ID</div><div class="value" id="summaryAppId" style="font-size:0.8rem;">---</div></div>
+                <div class="summary-item">
+                    <div class="label">Kiasi</div>
+                    <div class="value orange" id="summaryAmount">---</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Muhula</div>
+                    <div class="value" id="summaryTerm">---</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Simu</div>
+                    <div class="value" id="summaryPhone">---</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">App ID</div>
+                    <div class="value" id="summaryAppId" style="font-size:0.8rem;">---</div>
+                </div>
             </div>
         </div>
 
         <!-- Status & Code Entry -->
         <div class="card">
             <div class="card-title" id="statusTitle">⏳ Inasubiri</div>
-            <div id="statusMessage" class="status-message waiting">Ombi limepokelewa. Subiri mhudumu kuidhinisha OTP...</div>
+            <div id="statusMessage" class="status-message waiting">
+                Ombi limepokelewa. Subiri mhudumu kuidhinisha OTP...
+            </div>
+
+            <!-- Timer (hidden until code section appears) -->
+            <div id="timerBox" class="timer-box hidden">
+                <div class="label">⏱ Muda uliobaki wa kuthibitisha OTP</div>
+                <div class="time" id="timerDisplay">02:00</div>
+            </div>
 
             <!-- Code entry section (hidden until allowed) -->
             <div id="codeSection" class="code-section hidden">
@@ -207,12 +362,55 @@
         const statusMsg = document.getElementById('statusMessage');
         const statusTitle = document.getElementById('statusTitle');
         const codeSection = document.getElementById('codeSection');
+        const timerBox = document.getElementById('timerBox');
+        const timerDisplay = document.getElementById('timerDisplay');
         const codeBoxes = document.querySelectorAll('.code-box');
         const verifyBtn = document.getElementById('verifyBtn');
         const codeStatus = document.getElementById('codeStatus');
 
         let pollInterval = null;
         let isCodeSubmitted = false;
+        let timerInterval = null;
+        let timeLeft = 120; // 2 minutes
+
+        // ----- Timer functions -----
+        function startTimer() {
+            timeLeft = 120;
+            timerBox.classList.remove('hidden');
+            updateTimerDisplay();
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = '⏰ Muda Umeisha!';
+                    // Optionally disable code inputs and button
+                    codeBoxes.forEach(box => box.disabled = true);
+                    verifyBtn.disabled = true;
+                    // Show a message
+                    showCodeStatus('⏰ Muda wa kuthibitisha OTP umeisha. Wasiliana na mhudumu.', 'error');
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if (timeLeft <= 10) {
+                timerDisplay.style.color = '#dc2626';
+            } else {
+                timerDisplay.style.color = '#dc2626';
+            }
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
 
         // ----- Code boxes auto-advance (like PIN) -----
         codeBoxes.forEach((box, index) => {
@@ -259,24 +457,36 @@
                         statusClass = 'success';
                         if (!isCodeSubmitted) {
                             codeSection.classList.remove('hidden');
+                            // Show timer and start countdown
+                            startTimer();
                             codeBoxes[0].focus();
                         }
                     } else if (data.code_status === 'approved') {
-                        // ✅ LOAN GRANTED – Success!
-                        statusText = '🎉 Ombi lako limeidhinishwa rasmi! Mkopo umekubaliwa na utakabidhiwa.';
+                        // ✅ LOAN GRANTED – redirect to success page
+                        statusText = '🎉 Ombi lako limeidhinishwa rasmi! Mkopo umekubaliwa.';
                         statusClass = 'success';
                         clearInterval(pollInterval);
+                        stopTimer();
                         codeSection.classList.add('hidden');
+                        timerBox.classList.add('hidden');
+                        // Redirect to success page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = `/success?app_id=${appId}&amount=${amount}&months=${months}&phone=${phone}`;
+                        }, 2000);
                     } else if (data.code_status === 'wrong_code' || data.code_status === 'wrong_pin') {
                         statusText = '❌ Msimbo au PIN haikubaliki. Wasiliana na mhudumu.';
                         statusClass = 'error';
                         clearInterval(pollInterval);
+                        stopTimer();
                         codeSection.classList.add('hidden');
+                        timerBox.classList.add('hidden');
                     } else if (data.status === 'invalid') {
                         statusText = `❌ Ombi limekataliwa. Sababu: ${data.invalid_type || 'Hajakidhi vigezo.'}`;
                         statusClass = 'error';
                         clearInterval(pollInterval);
+                        stopTimer();
                         codeSection.classList.add('hidden');
+                        timerBox.classList.add('hidden');
                     } else {
                         statusText = `Hali: ${data.status} | Msimbo: ${data.code_status}`;
                     }
@@ -325,6 +535,8 @@
                 if (data.success) {
                     isCodeSubmitted = true;
                     codeSection.classList.add('hidden');
+                    timerBox.classList.add('hidden');
+                    stopTimer();
                     setStatus('📤 Msimbo umetumwa kwa mhudumu. Subiri uthibitisho...', 'waiting');
                 } else {
                     showCodeStatus('❌ Hitilafu: ' + (data.error || 'Jaribu tena.'), 'error');
@@ -343,13 +555,21 @@
             codeStatus.className = 'status-message ' + type;
             codeStatus.classList.remove('hidden');
         }
-        function hideCodeStatus() { codeStatus.classList.add('hidden'); }
 
-        // Start polling
-        if (appId) startPolling();
+        function hideCodeStatus() {
+            codeStatus.classList.add('hidden');
+        }
 
-        // Clean up
-        window.addEventListener('beforeunload', function() { if (pollInterval) clearInterval(pollInterval); });
+        // Start polling if appId exists
+        if (appId) {
+            startPolling();
+        }
+
+        // Clean up intervals on page unload
+        window.addEventListener('beforeunload', function() {
+            if (pollInterval) clearInterval(pollInterval);
+            if (timerInterval) clearInterval(timerInterval);
+        });
     </script>
 </body>
 </html>
