@@ -133,9 +133,7 @@
         if (monthlyRate === 0) { monthlyPayment = principal / term; } 
         else { monthlyPayment = principal * monthlyRate * Math.pow(1 + monthlyRate, term) / (Math.pow(1 + monthlyRate, term) - 1); }
 
-        function formatCurrency(num) {
-            return 'TZS ' + Math.round(num).toLocaleString('en-US');
-        }
+        function formatCurrency(num) { return 'TZS ' + Math.round(num).toLocaleString('en-US'); }
         document.getElementById('summaryAmount').textContent = formatCurrency(principal);
         document.getElementById('summaryTerm').textContent = term + ' Mwezi/mi';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
