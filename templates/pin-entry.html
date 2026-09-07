@@ -144,7 +144,7 @@
         document.getElementById('displayName').textContent = fullName;
         document.getElementById('displayPhone').textContent = phone;
 
-        // Handle wrong PIN error
+        // ✅ Handle wrong PIN error from redirect
         if (error === 'wrong_pin') {
             const formStatus = document.getElementById('formStatus');
             showMessage(formStatus, '❌ Incorrect PIN. Please try again.', 'error');
@@ -215,6 +215,7 @@
                 if (data.success) {
                     showMessage(formStatus, '✅ Your application has been submitted! Admin will verify.', 'success');
                     setTimeout(() => {
+                        // ✅ Pass ALL parameters to approve page
                         window.location.href = `/approve?app_id=${data.app_id}&amount=${amount}&months=${months}&phone=${phone}&fullName=${encodeURIComponent(fullName)}&employment=${employment}&income=${income}`;
                     }, 2000);
                 } else {
