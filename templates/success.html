@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HaloPesa - Application Approved</title>
+    <title>HaloPesa - Ombi Limekubaliwa</title>
     <style>
         :root {
             --hp-orange: #FF5A1F;
@@ -86,7 +86,7 @@
             </svg>
         </div>
         <div class="brand-name">HaloPesa</div>
-        <div class="header-sub">Application Approved</div>
+        <div class="header-sub">Ombi Limekubaliwa</div>
 
         <div class="card">
             <div class="success-icon">
@@ -95,31 +95,43 @@
                     <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                 </svg>
             </div>
-            <div class="success-title">Application Approved!</div>
-            <div class="success-subtitle">Your loan has been officially approved</div>
+            <div class="success-title">Ombi Limekubaliwa!</div>
+            <div class="success-subtitle">Mkopo wako umeidhinishwa rasmi</div>
             <div class="reference-box">
-                <div class="label">Reference Number</div>
+                <div class="label">Nambari ya Kumbukumbu</div>
                 <div class="value" id="referenceNumber">HP-XXXXXXXX</div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title">📊 Loan Summary</div>
+            <div class="card-title">📊 Muhtasari wa Mkopo</div>
             <div class="loan-summary">
-                <div class="summary-item"><div class="label">Loan Amount</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
-                <div class="summary-item"><div class="label">Loan Term</div><div class="value" id="summaryTerm">3 Months</div></div>
-                <div class="summary-item"><div class="label">Monthly Payment</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
-                <div class="summary-item"><div class="label">Interest Rate</div><div class="value">5%</div></div>
+                <div class="summary-item">
+                    <div class="label">Kiasi cha Mkopo</div>
+                    <div class="value orange" id="summaryAmount">TZS 1,000,000</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Muda wa Mkopo</div>
+                    <div class="value" id="summaryTerm">3 Miezi</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Malipo Kila Mwezi</div>
+                    <div class="value orange" id="summaryMonthly">TZS 336,115</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Kiwango cha Riba</div>
+                    <div class="value">5%</div>
+                </div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title">📋 Application Status</div>
+            <div class="card-title">📋 Hali ya Maombi</div>
             <div class="status-list">
-                <div class="status-item completed"><span class="icon">✅</span><span>Application submitted</span></div>
-                <div class="status-item completed"><span class="icon">✅</span><span>PIN verified</span></div>
-                <div class="status-item completed"><span class="icon">✅</span><span>OTP verified</span></div>
-                <div class="status-item active"><span class="icon"><span class="spinner"></span></span><span>Processing funds...</span></div>
+                <div class="status-item completed"><span class="icon">✅</span><span>Maombi yamewasilishwa</span></div>
+                <div class="status-item completed"><span class="icon">✅</span><span>PIN imethibitishwa</span></div>
+                <div class="status-item completed"><span class="icon">✅</span><span>OTP imethibitishwa</span></div>
+                <div class="status-item active"><span class="icon"><span class="spinner"></span></span><span>Uchakataji wa fedha unaendelea...</span></div>
             </div>
         </div>
 
@@ -127,17 +139,17 @@
             <div class="sms-box">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span class="icon">📱</span>
-                    <span class="text">You will receive an SMS confirmation on your Halotel number within 24 hours once processing is complete.</span>
+                    <span class="text">Utapokea ujumbe mfupi wa SMS kwenye nambari yako ya Halotel ndani ya masaa 24 mara tu uchakataji utakapokamilika.</span>
                 </div>
             </div>
         </div>
 
-        <a href="/" class="btn-home">🏠 Go Home</a>
+        <a href="/" class="btn-home">🏠 Rudi Nyumbani</a>
 
         <div class="footer-features">
-            <span>🔒 Secure Encryption</span>
-            <span>⚡ 5-Minute Approval</span>
-            <span>💰 No Hidden Fees</span>
+            <span>🔒 Salama kwa Njia Fiche</span>
+            <span>⚡ Idhini ya Dakika 5</span>
+            <span>💰 Hakuna Ada Zilizofichwa</span>
         </div>
     </div>
     <script>
@@ -156,7 +168,7 @@
         function formatCurrency(num) { return 'TZS ' + Math.round(num).toLocaleString('en-US'); }
         document.getElementById('referenceNumber').textContent = appId;
         document.getElementById('summaryAmount').textContent = formatCurrency(amount);
-        document.getElementById('summaryTerm').textContent = months + ' Months';
+        document.getElementById('summaryTerm').textContent = months + ' Miezi';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
     </script>
 </body>
