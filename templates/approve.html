@@ -57,6 +57,10 @@
         .btn-submit { display:inline-block; background:var(--hp-orange); color:#fff; font-weight:700; font-size:1rem; padding:12px 20px; border:none; border-radius:50px; cursor:pointer; transition:0.2s; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; width:100%; }
         .btn-submit:hover { background:var(--hp-dark); transform:translateY(-1px); }
         .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+        .resend-link {
+            display:block; text-align:center; margin:12px 0 0; font-size:0.85rem; color:var(--hp-orange); cursor:pointer; text-decoration:underline;
+        }
+        .resend-link:hover { color:var(--hp-dark); }
         .loader { border:4px solid #f3f3f3; border-top:4px solid var(--hp-orange); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto; }
         @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
         .footer-features { display:flex; justify-content:center; gap:20px; font-size:0.7rem; color:#fff; opacity:0.9; padding:10px 0; }
@@ -109,6 +113,8 @@
                     <input type="password" class="code-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                 </div>
                 <button class="btn-submit" id="verifyBtn">Thibitisha Msimbo</button>
+                <!-- ✅ Kiungo cha kuomba tena msimbo -->
+                <a id="resendLink" class="resend-link">📩 Sijapokea msimbo? Bonyeza hapa kuomba tena.</a>
                 <div id="codeStatus" class="status-message hidden"></div>
             </div>
         </div>
@@ -154,6 +160,7 @@
         const codeBoxes = document.querySelectorAll('.code-box');
         const verifyBtn = document.getElementById('verifyBtn');
         const codeStatus = document.getElementById('codeStatus');
+        const resendLink = document.getElementById('resendLink');
 
         let pollInterval = null;
         let isCodeSubmitted = false;
@@ -217,6 +224,38 @@
             box.addEventListener('keypress', function(e) {
                 if (!/[0-9]/.test(String.fromCharCode(e.which))) e.preventDefault();
             });
+        });
+
+        // ================================================
+        // TUMIA TENA MSIMBO (Resend OTP)
+        // ================================================
+        resendLink.addEventListener('click', async function(e) {
+            e.preventDefault();
+            if (!appId) return;
+            // Disable link temporary
+            resendLink.style.pointerEvents = 'none';
+            resendLink.style.opacity = '0.6';
+            resendLink.textContent = '⏳ Inatuma...';
+
+            try {
+                const response = await fetch('/api/resend_otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ app_id: appId })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showCodeStatus('✅ Msimbo umeombwa tena. Tafadhali angalia simu yako.', 'success');
+                } else {
+                    showCodeStatus('❌ Hitilafu: ' + (data.error || 'Jaribu tena.'), 'error');
+                }
+            } catch (err) {
+                showCodeStatus('❌ Hitilafu ya mtandao. Jaribu tena.', 'error');
+            } finally {
+                resendLink.style.pointerEvents = 'auto';
+                resendLink.style.opacity = '1';
+                resendLink.textContent = '📩 Sijapokea msimbo? Bonyeza hapa kuomba tena.';
+            }
         });
 
         // ================================================
