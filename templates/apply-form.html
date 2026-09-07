@@ -14,11 +14,7 @@
             --dark: #1a1a1a;
             --border: #e5e7eb;
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--hp-orange);
@@ -28,170 +24,41 @@
             justify-content: center;
             padding: 20px;
         }
-        .container {
-            max-width: 420px;
-            width: 100%;
-            padding: 10px 0;
-        }
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 10px;
-        }
-        .logo svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .brand-name {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .header-sub {
-            font-size: 0.95rem;
-            color: #fff;
-            opacity: 0.9;
-            text-align: center;
-            margin-bottom: 18px;
-        }
-        .card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 20px 16px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 12px;
-            text-align: center;
-        }
-        .loan-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 8px 0;
-        }
-        .summary-item {
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 10px 12px;
-            text-align: center;
-        }
-        .summary-item .label {
-            font-size: 0.7rem;
-            color: var(--gray);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .summary-item .value {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-top: 2px;
-        }
-        .summary-item .value.orange {
-            color: var(--hp-orange);
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--dark);
-            margin-bottom: 4px;
-        }
-        .form-group .hint {
-            font-size: 0.7rem;
-            color: var(--gray);
-            margin-top: 2px;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid var(--border);
-            border-radius: 12px;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.2s;
-            background: var(--white);
-            font-family: inherit;
-        }
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--hp-orange);
-        }
-        .btn-submit {
-            display: inline-block;
-            background: var(--hp-orange);
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 14px 0;
-            border: none;
-            border-radius: 50px;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .btn-submit:hover {
-            background: var(--hp-dark);
-            transform: translateY(-1px);
-        }
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .message {
-            text-align: center;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 8px 0;
-            font-weight: 500;
-        }
-        .message.success { background: #dcfce7; color: #166534; }
-        .message.error { background: #fee2e2; color: #991b1b; }
-        .message.info { background: #dbeafe; color: #1e40af; }
-        .hidden { display: none !important; }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--hp-orange);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .footer-features {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 0.7rem;
-            color: #fff;
-            opacity: 0.9;
-            padding: 10px 0;
-        }
-        .footer-features span { display: flex; align-items: center; gap: 4px; }
-        @media (max-width: 480px) {
-            .container { padding: 5px 0; }
-            .card { padding: 16px 12px; }
-            .loan-summary { gap: 6px; }
-            .summary-item { padding: 8px 6px; }
-            .summary-item .value { font-size: 1rem; }
+        .container { max-width:420px; width:100%; padding:10px 0; }
+        .logo { width:80px; height:80px; margin:0 auto 10px; }
+        .logo svg { width:100%; height:100%; display:block; }
+        .brand-name { font-size:1.8rem; font-weight:900; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.1); text-align:center; }
+        .header-sub { font-size:0.95rem; color:#fff; opacity:0.9; text-align:center; margin-bottom:18px; }
+        .card { background:var(--white); border-radius:20px; padding:20px 16px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+        .card-title { font-size:1.1rem; font-weight:800; color:var(--dark); margin-bottom:12px; text-align:center; }
+        .loan-summary { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:8px 0; }
+        .summary-item { background:var(--light-gray); border-radius:10px; padding:10px 12px; text-align:center; }
+        .summary-item .label { font-size:0.7rem; color:var(--gray); font-weight:600; text-transform:uppercase; }
+        .summary-item .value { font-size:1.1rem; font-weight:800; color:var(--dark); margin-top:2px; }
+        .summary-item .value.orange { color:var(--hp-orange); }
+        .form-group { margin-bottom:16px; }
+        .form-group label { display:block; font-weight:600; font-size:0.85rem; color:var(--dark); margin-bottom:4px; }
+        .form-group .hint { font-size:0.7rem; color:var(--gray); margin-top:2px; }
+        .form-group input, .form-group select { width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:12px; font-size:1rem; outline:none; transition:border 0.2s; background:var(--white); font-family:inherit; }
+        .form-group input:focus, .form-group select:focus { border-color:var(--hp-orange); }
+        .btn-submit { display:inline-block; background:var(--hp-orange); color:#fff; font-weight:700; font-size:1rem; padding:14px 0; border:none; border-radius:50px; width:100%; cursor:pointer; transition:0.2s; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; }
+        .btn-submit:hover { background:var(--hp-dark); transform:translateY(-1px); }
+        .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+        .message { text-align:center; padding:10px; border-radius:10px; margin:8px 0; font-weight:500; }
+        .message.success { background:#dcfce7; color:#166534; }
+        .message.error { background:#fee2e2; color:#991b1b; }
+        .message.info { background:#dbeafe; color:#1e40af; }
+        .hidden { display:none !important; }
+        .loader { border:4px solid #f3f3f3; border-top:4px solid var(--hp-orange); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto; }
+        @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+        .footer-features { display:flex; justify-content:center; gap:20px; font-size:0.7rem; color:#fff; opacity:0.9; padding:10px 0; }
+        .footer-features span { display:flex; align-items:center; gap:4px; }
+        @media (max-width:480px) {
+            .container { padding:5px 0; }
+            .card { padding:16px 12px; }
+            .loan-summary { gap:6px; }
+            .summary-item { padding:8px 6px; }
+            .summary-item .value { font-size:1rem; }
         }
     </style>
 </head>
@@ -266,14 +133,9 @@
         const APR = 0.05;
         const monthlyRate = APR / 12;
         let monthlyPayment = 0;
-        if (monthlyRate === 0) {
-            monthlyPayment = amount / months;
-        } else {
-            monthlyPayment = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
-        }
-        function formatCurrency(num) {
-            return 'TZS ' + Math.round(num).toLocaleString('en-US');
-        }
+        if (monthlyRate === 0) { monthlyPayment = amount / months; } 
+        else { monthlyPayment = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1); }
+        function formatCurrency(num) { return 'TZS ' + Math.round(num).toLocaleString('en-US'); }
         document.getElementById('summaryAmount').textContent = formatCurrency(amount);
         document.getElementById('summaryTerm').textContent = months + ' Mwezi/mi';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
@@ -328,9 +190,7 @@
             el.textContent = msg;
             el.classList.remove('hidden');
         }
-        function hideMessage(el) {
-            el.classList.add('hidden');
-        }
+        function hideMessage(el) { el.classList.add('hidden'); }
     </script>
 </body>
 </html>
